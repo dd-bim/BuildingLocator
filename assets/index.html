@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <title>Building Locator</title>
+    <meta charset="utf-8">
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      /*Create two equal columns that float next to each other */
+      .column {
+        float: left;
+        width: 50%;
+        padding: 10px;
+        height: 80%;
+      }
+
+      /*Clear floats after the columns */
+      .row::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>HTW DD Building Locator</h1>
+    <div class="column" id="map" style="width: 50%"></div>
+    <div class="column" id="controls">
+      <textarea id="input">POLYGON((0 0, 100 0, 100 30, 80 30, 80 15, 0 15, 0 0))</textarea>
+      <button id="drawWKT">WKT zeichnen</button>
+      <button id="savePosition">save Position</button>
+      <textarea id="output">result</textarea>
+      <div id="myPosition"></div>
+      <button id="btn-4326">EPSG 4326</button>
+      <button id="btn-25833">EPSG 25833</button>
+    </div>
+    <script src="js/bundle.js"></script>
+  </body>
+</html>
