@@ -32,8 +32,12 @@
       <button id="savePosition">save Position</button>
       <textarea id="output">result</textarea>
       <div id="myPosition"></div>
-      <button id="btn-4326">EPSG 4326</button>
-      <button id="btn-25833">EPSG 25833</button>
+      <fieldset>
+        <input type="radio" id="rd-3857" name="Projection" checked="checked" value="3857"> <label for="rd-3857">EPSG: 3857 (Web-Mercator)</label><br>
+        <input type="radio" id="rd-4326" name="Projection" value="4326"> <label for="rd-4326">EPSG: 4326 (WGS84 Geogr.)</label><br>
+        <input type="radio" id="rd-25832" name="Projection" value="25832"> <label for="rd-25832" value="25832">EPSG: 25832 (UTM Zone 32N)</label><br>
+        <input type="radio" id="rd-25833" name="Projection" value="25833"> <label for="rd-25833" value="25833">EPSG: 25833 (UTM Zone 33N)</label><br>
+      </fieldset>
     </div>
     <script src="js/bundle.js"></script>
   </body>
