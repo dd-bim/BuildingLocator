@@ -137,19 +137,12 @@ map.addControl(mousePosition);
 
 $("input[name='EditControl']").change( function() {
   switch(this.value) {
-    case 'delete':
-      if (selectedFeature.getFeatures().getLength() == 0) { 
-        break;
-      }
-      else {
-        var source = editLayer.getSource();
-        source.clear();
-      }
     case 'move':
+      window.map.addInteraction(translate);
+
       break;
     case 'rotate':
-      break;
-    case 'nothing':
+      window.map.removeInteraction(translate);
       break;
   }
 })
