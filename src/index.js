@@ -14,7 +14,12 @@ import {register} from 'ol/proj/proj4';
 import MousePosition from 'ol/control/MousePosition';
 import {createStringXY} from 'ol/coordinate';
 
+import {Select, Translate, defaults as defaultInteractions} from 'ol/interaction';
+
 import $ from 'jquery';
+
+import * as BuildingLocator from './buildingLocator';
+import * as CustomStyle from './customStyles';
 
 import proj4 from 'proj4';
 
@@ -22,7 +27,13 @@ proj4.defs('EPSG:25833', '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0
 proj4.defs("EPSG:25832", "+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 register(proj4);
 
+var selectedFeature = new Select({
+  style: new CustomStyle.getSelectStyle()
+});
 
+var translate = new Translate({
+  features: selectedFeature.getFeatures()
+})
 
 const viewWGS84 = new View({
   center: [13.73, 51.05],
@@ -68,6 +79,7 @@ const editLayer = new VectorLayer({
 });
 
 window.map = new Map({
+  interactions: defaultInteractions().extend([selectedFeature, translate]),
   layers: [
     //topPlusWMSTiles,
     topPlusSingleImageWMS,
@@ -80,73 +92,17 @@ window.map = new Map({
   })
 });
 
-function drawWKT()
-{
-  var source = editLayer.getSource();
-  var nrOfFeatures = source.getFeatures().length;
-
-  if (nrOfFeatures > 0) {
-    alert('Only one feature can be drawn! Please remove existing feature before proceding');
-    return;
-  }
-
-  var wktString = document.getElementById('input').textContent;
-  var format = new WKT();
-
-  var feature = format.readFeature(wktString, {
-    dataProjection: 'EPSG:3857',
-    featureProjection: window.map.getView().getProjection()
-  });
-
-  var viewCenter = window.map.getView().getCenter();
-  var polyCoordinates = feature.getGeometry().getCoordinates()[0];
-
-  var bbox = feature.getGeometry().getExtent();
-  var xCent = ((bbox[2]-bbox[0])/2);
-  var yCent = ((bbox[3]-bbox[1])/2);
-  var centroid = [xCent, yCent];
-
-  var newCoords = [];
-
-  for (var i=0; i<polyCoordinates.length; i++) {
-    var xDiff = centroid[0] - polyCoordinates[i][0];
-    var yDiff = centroid[1] - polyCoordinates[i][1];
-
-    var newX = viewCenter[0] - xDiff;
-    var newY = viewCenter[1] - yDiff;
-
-    newCoords.push([newX, newY]);
-  }
-
-  var feautre2 = new Feature({
-    geometry: new Polygon([newCoords])
-  });
-
-  source.addFeature(feautre2);
-}
-
 $('#drawWKT').on('click', () => {
-  drawWKT();
+  //drawWKT();
+  BuildingLocator.drawWKT(editLayer);
 });
 
-function savePosition()
-{
-  var source = editLayer.getSource();
-  var feature = source.getFeatures()[0];
-
-  var olGeom = feature.getGeometry();
-  var format = new WKT();
-  var wktRep = format.writeGeometry(olGeom);
-
-  document.getElementById('output').textContent = wktRep;
-}
-
 $('#savePosition').on('click', () => {
-  savePosition();
+  //savePosition(editLayer);
+  BuildingLocator.savePosition(editLayer);
 });
 
 $('#btn-4326').on('click', () => {
-  window.map.setView(viewWGS84);
 })
 
 $('#btn-25833').on('click', () => {
@@ -178,3 +134,32 @@ var mousePosition = new MousePosition({
 });
 
 map.addControl(mousePosition);
+
+$("input[name='EditControl']").change( function() {
+  switch(this.value) {
+    case 'delete':
+      if (selectedFeature.getFeatures().getLength() == 0) { 
+        break;
+      }
+      else {
+        var source = editLayer.getSource();
+        source.clear();
+      }
+    case 'move':
+      break;
+    case 'rotate':
+      break;
+    case 'nothing':
+      break;
+  }
+})
+
+$('#delete').on('click', () => {
+  if (selectedFeature.getFeatures().getLength() == 0) { 
+  }
+  else {
+    selectedFeature.getFeatures().item(0).setStyle(CustomStyle.getDeleteStyle());
+    var source = editLayer.getSource();
+    source.clear();
+  }
+})
