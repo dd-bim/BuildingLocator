@@ -15,6 +15,7 @@
     "@babel/polyfill": "^7.0.0",
     "jquery": "^3.3.1",
     "ol": "5.3.0",
+    "ol-rotate-feature": "^2.0.1",
     "ole": "0.0.1",
     "proj4": "^2.5.0",
     "whatwg-fetch": "^3.0.0"
