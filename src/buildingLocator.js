@@ -2,6 +2,7 @@ import WKT from 'ol/format/wkt';
 import Feature from 'ol/feature';
 import Polygon from 'ol/geom/polygon';
 
+import $ from 'jquery';
 
 export function drawWKT(editLayer)
 {
@@ -13,7 +14,7 @@ export function drawWKT(editLayer)
     return;
   }
 
-  var wktString = document.getElementById('input').textContent;
+  var wktString = $('#input').val();
   var format = new WKT();
 
   var feature = format.readFeature(wktString, {
