@@ -51,8 +51,13 @@ export function drawWKT(editLayer)
 export function savePosition(editLayer)
 {
   var source = editLayer.getSource();
+  
+  if (source.getFeatures().length < 1) {
+    alert('There is no feature in map!');
+    return;
+  }
+  
   var feature = source.getFeatures()[0];
-
   var olGeom = feature.getGeometry();
   var format = new WKT();
   var wktRep = format.writeGeometry(olGeom);

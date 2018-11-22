@@ -23,11 +23,11 @@ proj4.defs('EPSG:25833', '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0
 proj4.defs("EPSG:25832", "+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 register(proj4);
 
-var selectedFeature = new Select({
+const selectedFeature = new Select({
   style: new CustomStyle.getSelectStyle()
 });
 
-var translate = new Translate({
+const translate = new Translate({
   features: selectedFeature.getFeatures()
 })
 
