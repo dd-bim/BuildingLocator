@@ -6,6 +6,11 @@ import Stroke from 'ol/style/Stroke'
 import Text from 'ol/style/Text'
 import Point from 'ol/geom/Point';
 import LineString from 'ol/geom/LineString';
+import WKT from 'ol/format/wkt';
+
+import $ from 'jquery';
+
+import {getProjectBasePointFromFeature} from './buildingLocator';
 
 
 export function getSelectStyle() {
@@ -29,15 +34,14 @@ export function getSelectStyle() {
     }),
     new Style({
       image: new CircleStyle({
-        radius: 5,
+        radius: 7.5,
         fill: new Fill({
           color: 'orange'
         })
       }),
       geometry: function(feature) {
-        // return the coordinates of the first ring of the polygon
-        var coordinates = feature.getGeometry().getCoordinates()[0][0];
-        return new Point(coordinates);
+        var coords = getProjectBasePointFromFeature(feature);
+        return coords;
       }
     })
   ];

@@ -1,6 +1,7 @@
 import WKT from 'ol/format/wkt';
 import Feature from 'ol/feature';
 import Polygon from 'ol/geom/polygon';
+import Point from 'ol/geom/Point';
 
 import $ from 'jquery';
 
@@ -64,4 +65,18 @@ export function savePosition(editLayer)
   var wktRep = format.writeGeometry(olGeom);
 
   document.getElementById('output').textContent = wktRep;
+}
+
+export function getProjectBasePointFromFeature(feature) {
+  var coordinates = feature.getGeometry().getCoordinates()[0][0];
+    var format = new WKT();
+    var featureWKT = format.readFeature($('#input').val(), {
+      dataProjection: window.map.getView().getProjection(),
+      featureProjection: window.map.getView().getProjection()
+    });
+
+    var cordBPX = feature.getGeometry().getCoordinates()[0][0][0] - featureWKT.getGeometry().getCoordinates()[0][0][0];
+    var cordBPY = feature.getGeometry().getCoordinates()[0][0][1] - featureWKT.getGeometry().getCoordinates()[0][0][1];
+        
+    return new Point([cordBPX, cordBPY]);
 }

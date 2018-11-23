@@ -17,7 +17,9 @@ import RotateFeatureInteraction from 'ol-rotate-feature';
 
 import * as BuildingLocator from './buildingLocator';
 import * as CustomStyle from './customStyles';
+import * as fileHandler from './fileHandler';
 
+window.loFile = "";
 
 proj4.defs('EPSG:25833', '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
 proj4.defs("EPSG:25832", "+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
@@ -59,7 +61,8 @@ const viewUTM33 = new View({
 const topPlusSingleImageWMS = new ImageLayer({
   source: new ImageSource({
     url: 'http://sgx.geodatenzentrum.de/wms_topplus_web_open?',
-    params: {'Layers': 'web'}
+    params: {'Layers': 'web'},
+    attributions: ['<a href="http://www.bkg.bund.de">Bundesamt für Kartographie und Geodäsie </a>  2018, <a href="http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf" Datenquellen']
   })
 });
 
@@ -160,3 +163,10 @@ $('#delete').on('click', () => {
     source.clear();
   }
 })
+
+let dropZone = document.getElementById('dropZone');
+dropZone.addEventListener('dragover', fileHandler.handleDragOver, false);
+//dropZone.addEventListener('drop', fileHandler.handleFileSelect, false);
+
+dropZone.addEventListener("drop", fileHandler.drop, false);
+
