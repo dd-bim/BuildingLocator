@@ -1,0 +1,167 @@
+{
+  "GlobalID": "344O7vICcwH8qAEnwJDjSU",
+  "IFCSchema": "Ifc2X3",
+  "TimeCreation": "2018-09-07T11:48:27",
+  "TimeCheck": "2018-11-23T09:15:03",
+  "LengthUnit": "m",
+  "WKTRep": "POLYGON((10 10, 100 10, 100 80, 70 80, 70 30, 30 30, 30 55, 10 55, 10 10))",
+  "LoGeoRef10": [
+    {
+      "GeoRef10": false,
+      "Reference_Object": [
+        "#117",
+        "IfcBuilding"
+      ],
+      "Instance_Object": [
+        "IfcPostalAddress",
+        "n/a"
+      ],
+      "AddressLines": [
+        "n/a",
+        "n/a",
+        "n/a",
+        "n/a",
+        "n/a",
+        "n/a"
+      ],
+      "Postalcode": "n/a",
+      "Town": "n/a",
+      "Region": "n/a",
+      "Country": "n/a"
+    },
+    {
+      "GeoRef10": false,
+      "Reference_Object": [
+        "#1175409",
+        "IfcSite"
+      ],
+      "Instance_Object": [
+        "IfcPostalAddress",
+        "n/a"
+      ],
+      "AddressLines": [
+        "n/a",
+        "n/a",
+        "n/a",
+        "n/a",
+        "n/a",
+        "n/a"
+      ],
+      "Postalcode": "n/a",
+      "Town": "n/a",
+      "Region": "n/a",
+      "Country": "n/a"
+    }
+  ],
+  "LoGeoRef20": [
+    {
+      "GeoRef20": true,
+      "Instance_Object": [
+        "#1175409",
+        "IfcSite"
+      ],
+      "Latitude": 42.41486358638889,
+      "Longitude": -71.258071899166666,
+      "Elevation": 150.75
+    }
+  ],
+  "LoGeoRef30": [
+    {
+      "GeoRef30": true,
+      "Reference_Object": [
+        "#1175409",
+        "IfcSite"
+      ],
+      "Instance_Object": [
+        "#1175405",
+        "IfcAxis2Placement3D"
+      ],
+      "ObjectLocationXYZ": [
+        -3179.22211176075,
+        -578.970503046875,
+        150.75
+      ],
+      "ObjectRotationX": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "ObjectRotationZ": [
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  ],
+  "LoGeoRef40": [
+    {
+      "GeoRef40": true,
+      "Reference_Object": [
+        "#99",
+        "IfcGeometricRepresentationContext"
+      ],
+      "Instance_Object_WCS": [
+        "#96",
+        "IfcAxis2Placement3D"
+      ],
+      "Instance_Object_North": [
+        "#97",
+        "IfcDirection"
+      ],
+      "ProjectLocation": [
+        1088.20789219992,
+        3042.77236458146,
+        150.75
+      ],
+      "ProjectRotationX": [
+        -0.499999999999998,
+        -0.86602540378444,
+        0.0
+      ],
+      "ProjectRotationZ": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "TrueNorthXY": [
+        -0.866025403784439,
+        -0.499999999999999
+      ]
+    }
+  ],
+  "LoGeoRef50": [
+    {
+      "GeoRef50": false,
+      "Reference_Object": [
+        "IfcMapConversion",
+        "n/a",
+        "IfcMapConversion",
+        "n/a"
+      ],
+      "Instance_Object_Project": [
+        "#99",
+        "IfcGeometricRepresentationContext"
+      ],
+      "Instance_Object_CRS": [
+        "IfcProjectedCRS",
+        "n/a",
+        "IfcProjectedCRS",
+        "n/a"
+      ],
+      "Translation_Eastings": 0.0,
+      "Translation_Northings": 0.0,
+      "Translation_Orth_Height": 0.0,
+      "RotationXY": [
+        0.0,
+        1.0
+      ],
+      "Scale": 1.0,
+      "CRS_Name": "n/a",
+      "CRS_Description": "n/a",
+      "CRS_Geodetic_Datum": "n/a",
+      "CRS_Vertical_Datum": "n/a",
+      "CRS_Projection_Name": "n/a",
+      "CRS_Projection_Zone": "n/a"
+    }
+  ]
+}
