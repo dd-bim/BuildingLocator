@@ -67,6 +67,12 @@ export function handleFile(files) {
 function handleLoGeoRefFile(JSONFile) {
 
   var wktRep = JSONFile.WKTRep;
+  wktRep = insertOrigin(wktRep);
   
   $('#input').val(wktRep);
+}
+
+function insertOrigin(wkt) {
+  var output = [wkt.slice(0, 9), '0 0,', wkt.slice(9, wkt.indexOf(')')), ', 0 0))'].join('');
+  return output;
 }

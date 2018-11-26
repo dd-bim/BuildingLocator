@@ -13,7 +13,7 @@ import {Select, Translate, defaults as defaultInteractions} from 'ol/interaction
 
 import proj4 from 'proj4';
 import $ from 'jquery';
-import RotateFeatureInteraction from 'ol-rotate-feature';
+import RotateFeatureInteraction from './indexRot';
 
 import * as BuildingLocator from './buildingLocator';
 import * as CustomStyle from './customStyles';
@@ -148,6 +148,12 @@ $("input[name='EditControl']").change( function() {
 
       break;
     case 'rotate':
+      var featureToRotate = selectedFeature.getFeatures().item(0)
+      var projectBasePoint = BuildingLocator.getProjectBasePointFromFeature(featureToRotate);
+      
+      console.log(projectBasePoint);
+
+      rotate.setAnchor(projectBasePoint.getCoordinates());
       window.map.removeInteraction(translate);
       window.map.addInteraction(rotate);
       break;

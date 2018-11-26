@@ -16,6 +16,7 @@ export function drawWKT(editLayer)
   }
 
   var wktString = $('#input').val();
+
   var format = new WKT();
 
   var feature = format.readFeature(wktString, {
@@ -42,6 +43,13 @@ export function drawWKT(editLayer)
 
     newCoords.push([newX, newY]);
   }
+
+  /*var newStartX = newCoords[0][0]-polyCoordinates[0][0];
+  var newStartY = newCoords[0][1]-polyCoordinates[0][1];
+
+  newCoords.unshift([newStartX, newStartY]);
+  newCoords.unshift([newStartX, newStartY]);
+  */
 
   var feautre2 = new Feature({
     geometry: new Polygon([newCoords])
@@ -79,4 +87,9 @@ export function getProjectBasePointFromFeature(feature) {
     var cordBPY = feature.getGeometry().getCoordinates()[0][0][1] - featureWKT.getGeometry().getCoordinates()[0][0][1];
         
     return new Point([cordBPX, cordBPY]);
+}
+
+function insertOrigin(wkt) {
+  var output = [wkt.slice(0, 9), '0 0,', wkt.slice(9, wkt.indexOf(')')), ', 0 0))'].join('');
+  return output;
 }
