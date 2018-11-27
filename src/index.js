@@ -99,12 +99,9 @@ $('#savePosition').on('click', () => {
   BuildingLocator.savePosition(editLayer);
 });
 
-$('#btn-4326').on('click', () => {
-})
-
-$('#btn-25833').on('click', () => {
-  window.map.setView(viewUtm);
-})
+$('#saveFile').on('click', () => {
+  BuildingLocator.downloadJSONFile(JSON.stringify(window.loFile), "buildingLocator.json");
+});
 
 $("input[name='Projection']").change( function() {
   switch(this.value) {

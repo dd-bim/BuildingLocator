@@ -73,6 +73,31 @@ export function savePosition(editLayer)
   var wktRep = format.writeGeometry(olGeom);
 
   document.getElementById('output').textContent = wktRep;
+  window.loFile.LoGeoRef40[0].ProjectLocation = olGeom.getCoordinates()[0][0];
+}
+
+export function downloadJSONFile(text, fileName) {
+
+  var a = document.createElement('a');
+  //var mimeType = 'application/octet-stream';
+  var mimeType = 'application/json';
+
+  if (navigator.msSaveBlob) { // IE10
+    navigator.msSaveBlob(new Blob([text], {
+      type: mimeType
+    }), fileName);
+  } else if (URL && 'download' in a) { //html5 A[download]
+    a.href = URL.createObjectURL(new Blob([text], {
+      type: mimeType
+    }));
+    a.setAttribute('download', fileName);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } else {
+    location.href = 'data:application/octet-stream,' + encodeURIComponent(content); // only this mime type is supported
+  }
+  
 }
 
 export function getProjectBasePointFromFeature(feature) {
