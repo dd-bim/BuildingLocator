@@ -12,6 +12,8 @@ proj4.defs('EPSG:25833', '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0
 proj4.defs("EPSG:25832", "+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 register(proj4);
 
+var wktString = "";
+
 export function drawWKT(editLayer)
 {
   var source = editLayer.getSource();
@@ -22,19 +24,19 @@ export function drawWKT(editLayer)
     return;
   }
 
-  var wktString = $('#input').val();
+  wktString = $('#input').val();
 
   var format = new WKT();
 
-  var feature = format.readFeature(wktString, {
+  wktString = format.readFeature(wktString, {
     dataProjection: window.map.getView().getProjection(),
     featureProjection: window.map.getView().getProjection()
   });
 
   var viewCenter = window.map.getView().getCenter();
-  var polyCoordinates = feature.getGeometry().getCoordinates()[0];
+  var polyCoordinates = wktString.getGeometry().getCoordinates()[0];
 
-  var bbox = feature.getGeometry().getExtent();
+  var bbox = wktString.getGeometry().getExtent();
   var xCent = ((bbox[2]-bbox[0])/2);
   var yCent = ((bbox[3]-bbox[1])/2);
   var centroid = [xCent, yCent];
@@ -190,24 +192,36 @@ function setLevel50(feature) {
   window.loFile.LoGeoRef50[0].GeoRef50 = true;
   window.loFile.LoGeoRef50[0].CRS_Name = window.map.getView().getProjection().code_;
 
+  var wktFeatureStart = wktString.getGeometry().getCoordinates()[0][0];
+  var wktFeatureEnd = wktString.getGeometry().getCoordinates()[0][1];
+  var coordinatesWKT = [wktFeatureStart, wktFeatureEnd];
+
+
   var geom = feature.getGeometry();
   var origin = geom.getCoordinates()[0][0];
   var firstPoint = geom.getCoordinates()[0][1];
-  var rotation = getRotation([origin, firstPoint]);
+  var coordinatesWorld = [origin, firstPoint];
+  
+  var rotation = getRotation(coordinatesWorld, coordinatesWKT);
   window.loFile.LoGeoRef50[0].RotationXY = rotation;
   window.loFile.LoGeoRef50[0].Translation_Eastings = origin[0];
   window.loFile.LoGeoRef50[0].Translation_Northings = origin[1];
 
+  console.log(rotation);
+
 }
 
-function getRotation(coordinates) {
-  var start = coordinates[0];
-  var end = coordinates[1];
+function getRotation(worldCoords, wktCoords) {
+  var vecWorld = [worldCoords[1][0] - worldCoords[0][0], worldCoords[1][1] - worldCoords[0][1]];
+  var vecWKT = [wktCoords[1][0] - wktCoords[0][0], wktCoords[1][1] - wktCoords[0][1]];
 
-  var vector = [end[0]-start[0], end[1]-start[1]];
-  var normalizedVector = normalize(vector);
+  var vecWorldNorm = normalize(vecWorld);
+  var vecWKTNorm = normalize(vecWKT);
 
-  return normalizedVector;
+  var rotX = vecWorldNorm[1]*vecWKTNorm[0] - vecWorldNorm[0]*vecWKTNorm[1];
+  var rotY = vecWorldNorm[0]*vecWKTNorm[1] - vecWKTNorm[0]*vecWorldNorm[1];
+
+  return [rotX, rotY];
 }
 
 function normalize(vector) {
