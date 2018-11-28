@@ -5,6 +5,13 @@ import Point from 'ol/geom/Point';
 
 import $ from 'jquery';
 
+import {register} from 'ol/proj/proj4';
+import proj4 from 'proj4';
+
+proj4.defs('EPSG:25833', '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
+proj4.defs("EPSG:25832", "+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+register(proj4);
+
 export function drawWKT(editLayer)
 {
   var source = editLayer.getSource();
@@ -72,8 +79,18 @@ export function savePosition(editLayer)
   var format = new WKT();
   var wktRep = format.writeGeometry(olGeom);
 
+  var projectBasePointWGS84 = getProjectBasePointWGS84(feature);
+
+  var newHTML = 'ProjektBasisPunkt in WGS 84 ' + projectBasePointWGS84[0] + ' ' + projectBasePointWGS84[1];
+  $('#basePointWGS84').html(newHTML);
+
   document.getElementById('output').textContent = wktRep;
-  window.loFile.LoGeoRef40[0].ProjectLocation = olGeom.getCoordinates()[0][0];
+  setLevel10();
+  setLevel20(projectBasePointWGS84);
+  setLevel30();
+  setLevel40();
+  setLevel50(feature);
+
 }
 
 export function downloadJSONFile(text, fileName) {
@@ -117,4 +134,140 @@ export function getProjectBasePointFromFeature(feature) {
 function insertOrigin(wkt) {
   var output = [wkt.slice(0, 9), '0 0,', wkt.slice(9, wkt.indexOf(')')), ', 0 0))'].join('');
   return output;
+}
+
+function getProjectBasePointWGS84(feature) {
+  const view = window.map.getView();
+  var curProj = view.getProjection();
+
+  var clone = feature.clone();
+  var newFeatureGeom = clone.getGeometry().transform(curProj, 'EPSG:4326');
+  var projBasePoint = newFeatureGeom.getCoordinates()[0][0];
+
+  return projBasePoint;
+}
+
+function setLevel10() {
+  var level10 = window.loFile.LoGeoRef10;
+
+  for (let item of level10) {
+    item.GeoRef10 = true;
+    item.Postalcode = window.document.getElementById('postCode').innerHTML;
+    item.Town = window.document.getElementById('city').innerHTML;
+    item.Region = window.document.getElementById('region').innerHTML;
+    item.Country = window.document.getElementById('country').innerHTML;
+    item.AddressLines = [window.document.getElementById('road').innerHTML, ' ', window.document.getElementById('houseNumber').innerHTML].join('');
+
+  }
+
+}
+
+function setLevel20(coordinates) {
+
+  window.loFile.LoGeoRef20[0].GeoRef20 = true;
+  window.loFile.LoGeoRef20[0].Latitude = coordinates[1];
+  window.loFile.LoGeoRef20[0].Longitude = coordinates[0];
+
+}
+
+function setLevel30() {
+  
+  window.loFile.LoGeoRef30[0].GeoRef30 = false;
+  window.loFile.LoGeoRef30[0].ObjectLocationXYZ = [0.0, 0.0, window.loFile.LoGeoRef30[0].ObjectLocationXYZ[2]];
+  window.loFile.LoGeoRef30[0].ObjectRotationX = [1.0, 0.0, 0.0];
+  window.loFile.LoGeoRef30[0].ObjectRotationZ = [0.0, 0.0, 1.0];
+}
+
+function setLevel40() {
+  window.loFile.LoGeoRef40[0].GeoRef30 = false;
+  window.loFile.LoGeoRef40[0].ProjectLocation = [0.0, 0.0, 0.0];
+  window.loFile.LoGeoRef40[0].ProjectRotationX = [1.0, 0.0, 0.0];
+  window.loFile.LoGeoRef40[0].ProjectRotationZ = [0.0, 0.0, 1.0];
+  window.loFile.LoGeoRef40[0].TrueNorthXY = [0.0, 1.0];
+}
+
+function setLevel50(feature) {
+  window.loFile.LoGeoRef50[0].GeoRef50 = true;
+  window.loFile.LoGeoRef50[0].CRS_Name = window.map.getView().getProjection().code_;
+
+  var geom = feature.getGeometry();
+  var origin = geom.getCoordinates()[0][0];
+  var firstPoint = geom.getCoordinates()[0][1];
+  var rotation = getRotation([origin, firstPoint]);
+  window.loFile.LoGeoRef50[0].RotationXY = rotation;
+  window.loFile.LoGeoRef50[0].Translation_Eastings = origin[0];
+  window.loFile.LoGeoRef50[0].Translation_Northings = origin[1];
+
+}
+
+function getRotation(coordinates) {
+  var start = coordinates[0];
+  var end = coordinates[1];
+
+  var vector = [end[0]-start[0], end[1]-start[1]];
+  var normalizedVector = normalize(vector);
+
+  return normalizedVector;
+}
+
+function normalize(vector) {
+  var length = Math.sqrt(vector[0]*vector[0] + vector[1]*vector[1]);
+  var normalizedVector = [vector[0]/length, vector[1]/length];
+
+  return normalizedVector;
+}
+
+function queryGISgraphy(coordinates) {
+
+}
+
+function queryOpenCageData(coordinates) {
+
+}
+
+export function queryNominatim(editLayer) {
+  
+  var source = editLayer.getSource();
+  
+  if (source.getFeatures().length < 1) {
+    alert('There is no feature in map!');
+    return;
+  }
+  
+  var feature = source.getFeatures()[0];
+  const view = window.map.getView();
+  var curProj = view.getProjection();
+
+  var clone = feature.clone();
+  var newFeatureGeom = clone.getGeometry().transform(curProj, 'EPSG:4326');
+  var coordinates = newFeatureGeom.getCoordinates()[0][1];
+  
+  var lat = coordinates[1];
+  var lon = coordinates[0];
+  var format = 'json';
+  var zoom = 18;
+  var addressdetails = 1;
+
+  var url = ['https://nominatim.openstreetmap.org/reverse?', 'format=', format, '&lat=', lat, '&lon=', lon, '&zoom=', zoom, '&addressdetails=', addressdetails].join('');
+
+  $.getJSON(url).done(
+    function (data) {
+      console.log(data);
+      var json = data;
+      var country = data.address.country;
+      var region = data.address.state;
+      var city = data.address.city;
+      var road = data.address.road;
+      var postcode = data.address.postcode;
+      var houseNumber = data.address.house_number;
+
+      window.document.getElementById('country').innerHTML = country;
+      window.document.getElementById('region').innerHTML = region;
+      window.document.getElementById('city').innerHTML = city;
+      window.document.getElementById('road').innerHTML = road;
+      window.document.getElementById('postCode').innerHTML = postcode;
+      window.document.getElementById('houseNumber').innerHTML = houseNumber;
+
+    }
+  );
 }

@@ -32,11 +32,12 @@
       <button id="drawWKT">WKT zeichnen</button>
       <button id="savePosition">save Position</button>
       <textarea id="output">result</textarea>
+      <div id="basePointWGS84">ProjektBasisPunkt in WGS 84: </div>
       <fieldset>
-        <input type="radio" id="rd-3857" name="Projection" checked="checked" value="3857"> <label for="rd-3857">EPSG: 3857 (Web-Mercator)</label><br>
+        <input type="radio" id="rd-3857" name="Projection"  value="3857"> <label for="rd-3857">EPSG: 3857 (Web-Mercator)</label><br>
         <input type="radio" id="rd-4326" name="Projection" value="4326"> <label for="rd-4326">EPSG: 4326 (WGS84 LatLon)</label><br>
         <input type="radio" id="rd-25832" name="Projection" value="25832"> <label for="rd-25832" value="25832">EPSG: 25832 (UTM Zone 32N)</label><br>
-        <input type="radio" id="rd-25833" name="Projection" value="25833"> <label for="rd-25833" value="25833">EPSG: 25833 (UTM Zone 33N)</label><br>
+        <input type="radio" id="rd-25833" name="Projection" value="25833" checked="checked"> <label for="rd-25833" value="25833">EPSG: 25833 (UTM Zone 33N)</label><br>
       </fieldset>
       <fieldset>
         <input type="radio" id="move" name="EditControl" value="move" checked="checked"> <label for="none"> verschieben</label> <br>
@@ -44,6 +45,7 @@
       </fieldset>
       <fieldset>
         <button id="delete" >Auswahl löschen</button>
+        <button id="getAddress">Adresse ermitteln</button>
         <button id="saveFile">JSON-Datei herunterladen</button>
         <div id="status"></div>
         <div id="myPosition"></div>
@@ -52,6 +54,44 @@
         <div id="dropZone">Drop JSON-File here</div>
         <output id="list"></output>
       </fieldset>
+      <table>
+        <tr>
+          <td>Land</td>
+          <td>
+            <textarea id="country"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>Region</td>
+          <td>
+            <textarea id="region"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>Stadt</td>
+          <td>
+            <textarea id="city"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>PLZ</td>
+          <td>
+            <textarea id="postCode"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>Straße</td>
+          <td>
+            <textarea id="road"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>Hausnummer</td>
+          <td>
+            <textarea	id="houseNumber"></textarea>
+          </td>
+        </tr>
+      </table>
     </div>
     <script src="js/bundle.js"></script>
   </body>

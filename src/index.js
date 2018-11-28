@@ -55,7 +55,7 @@ const viewUTM32 = new View({
 const viewUTM33 = new View({
   center: [411243, 5654395],
   projection: 'EPSG:25833',
-  zoom: 15
+  zoom: 17
 })
 
 const topPlusSingleImageWMS = new ImageLayer({
@@ -85,10 +85,7 @@ window.map = new Map({
     editLayer
   ],
   target: 'map',
-  view: new View({
-    center: [1530000, 6626800],
-    zoom: 17
-  })
+  view: viewUTM33
 });
 
 $('#drawWKT').on('click', () => {
@@ -98,6 +95,10 @@ $('#drawWKT').on('click', () => {
 $('#savePosition').on('click', () => {
   BuildingLocator.savePosition(editLayer);
 });
+
+$('#getAddress').on('click', () => {
+  BuildingLocator.queryNominatim(editLayer);
+})
 
 $('#saveFile').on('click', () => {
   BuildingLocator.downloadJSONFile(JSON.stringify(window.loFile), "buildingLocator.json");
