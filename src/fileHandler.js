@@ -51,9 +51,25 @@ function handleLoGeoRefFile(JSONFile) {
   wktRep = insertOrigin(wktRep);
   
   $('#input').val(wktRep);
+
+  readLevel50();
 }
 
 function insertOrigin(wkt) {
   var output = [wkt.slice(0, 9), '0 0,', wkt.slice(9, wkt.indexOf(')')), ', 0 0))'].join('');
   return output;
+}
+
+function readLevel50() {
+  if (window.loFile.LoGeoRef50[0].GeoRef50) {
+    var transEast = window.loFile.LoGeoRef50[0].Translation_Eastings;
+    var transNorth = window.loFile.LoGeoRef50[0].Translation_Northings;
+    var rotationXY = window.loFile.LoGeoRef50[0].RotationXY;
+
+    window.document.getElementById('level50Status').innerHTML = "true";
+    window.document.getElementById('eastings').innerHTML = transEast;
+    window.document.getElementById('northings').innerHTML = transNorth;
+    window.document.getElementById('rotation50').innerHTML = rotationXY[0] + " " + rotationXY[1];
+
+  }
 }

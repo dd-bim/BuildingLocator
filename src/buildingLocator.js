@@ -33,33 +33,7 @@ export function drawWKT(editLayer)
     featureProjection: window.map.getView().getProjection()
   });
 
-  var viewCenter = window.map.getView().getCenter();
-  var polyCoordinates = wktString.getGeometry().getCoordinates()[0];
-
-  var bbox = wktString.getGeometry().getExtent();
-  var xCent = ((bbox[2]-bbox[0])/2);
-  var yCent = ((bbox[3]-bbox[1])/2);
-  var centroid = [xCent, yCent];
-
-  var newCoords = [];
-
-  for (var i=0; i<polyCoordinates.length; i++) {
-    var xDiff = centroid[0] - polyCoordinates[i][0];
-    var yDiff = centroid[1] - polyCoordinates[i][1];
-
-    var newX = viewCenter[0] - xDiff;
-    var newY = viewCenter[1] - yDiff;
-
-    newCoords.push([newX, newY]);
-  }
-
-  /*var newStartX = newCoords[0][0]-polyCoordinates[0][0];
-  var newStartY = newCoords[0][1]-polyCoordinates[0][1];
-
-  newCoords.unshift([newStartX, newStartY]);
-  newCoords.unshift([newStartX, newStartY]);
-  */
-
+  var newCoords = getWorldPosition(wktString);
   var feautre2 = new Feature({
     geometry: new Polygon([newCoords])
   });
@@ -162,7 +136,7 @@ function setLevel10() {
     item.Region = window.document.getElementById('region').innerHTML;
     item.Country = window.document.getElementById('country').innerHTML;
     item.AddressLines = [window.document.getElementById('road').innerHTML, ' ', window.document.getElementById('houseNumber').innerHTML].join('');
-    
+
     }
   }
 
@@ -288,4 +262,59 @@ export function queryNominatim(editLayer) {
 
     }
   );
+}
+
+function getWorldPosition(wktString) {
+  var newCoords = [];
+  var polyCoordinates = wktString.getGeometry().getCoordinates()[0];
+
+  if (window.document.getElementById('level50Status').innerHTML) {
+    var eastings = window.document.getElementById('eastings').innerHTML;
+    var northings = window.document.getElementById('northings').innerHTML;
+    var rotation = window.document.getElementById('rotation50').innerHTML;
+    rotation = rotation.split(' ');
+
+    for (var i=0; i<polyCoordinates.length; i++) {
+  
+      var newX = parseFloat(eastings) + parseFloat(polyCoordinates[i][0]);
+      var newY = parseFloat(northings) + parseFloat(polyCoordinates[i][1]);
+  
+      newCoords.push([newX, newY]);
+    }
+
+    var featureToRot = new Feature({
+      geometry: new Polygon([newCoords])
+    });
+
+    var featureToRotGeom = featureToRot.getGeometry();
+    var anchor = newCoords[0];
+    var angle = Math.atan2(parseFloat(rotation[1]), parseFloat(rotation[0]));
+
+    featureToRotGeom.rotate(angle, anchor);
+    return featureToRotGeom.getCoordinates()[0];
+  }
+
+  else {
+    var viewCenter = window.map.getView().getCenter();
+    
+    var polyCoordinates = wktString.getGeometry().getCoordinates()[0];
+
+    var bbox = wktString.getGeometry().getExtent();
+    var xCent = ((bbox[2]-bbox[0])/2);
+    var yCent = ((bbox[3]-bbox[1])/2);
+    var centroid = [xCent, yCent];
+
+    var newCoords = [];
+
+    for (var i=0; i<polyCoordinates.length; i++) {
+      var xDiff = centroid[0] - polyCoordinates[i][0];
+      var yDiff = centroid[1] - polyCoordinates[i][1];
+
+      var newX = viewCenter[0] - xDiff;
+      var newY = viewCenter[1] - yDiff;
+
+      newCoords.push([newX, newY]);
+    }
+    return newCoords;
+  }
 }

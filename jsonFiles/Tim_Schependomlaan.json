@@ -152,8 +152,8 @@
       "Translation_Northings": 5654564.9665175289,
       "Translation_Orth_Height": 0.0,
       "RotationXY": [
-        0.0,
-        1.0
+        0.4782,
+        0.87825
       ],
       "Scale": 1.0,
       "CRS_Name": "EPSG:25833",
