@@ -153,13 +153,17 @@ function setLevel10() {
   var level10 = window.loFile.LoGeoRef10;
 
   for (let item of level10) {
+
+    if (item.Reference_Object.includes("IfcBuilding")) {
+
     item.GeoRef10 = true;
     item.Postalcode = window.document.getElementById('postCode').innerHTML;
     item.Town = window.document.getElementById('city').innerHTML;
     item.Region = window.document.getElementById('region').innerHTML;
     item.Country = window.document.getElementById('country').innerHTML;
     item.AddressLines = [window.document.getElementById('road').innerHTML, ' ', window.document.getElementById('houseNumber').innerHTML].join('');
-
+    
+    }
   }
 
 }
