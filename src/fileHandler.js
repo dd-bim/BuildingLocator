@@ -1,31 +1,5 @@
 import $ from 'jquery';
 
-export function handleFileSelect(evt) {
-  evt.stopPropagation();
-  evt.preventDefault();
-  let files = evt.dataTransfer.files;
-  let output = [];
-
-  for (var i = 0, f; f = files[i]; i++) {
-    output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a',
-    ') - ', f.size, ' bytes, last modified: ',
-    f.lastModifiedDate.toLocaleDateString(), '</li>');
-  }
-
-  window.document.getElementById('list').innerHTML = 
-    '<ul>' + output.join('') + '</ul>';
-
-  var reader = new FileReader();
-
-  reader.onload = (function(theFile) {
-    return function(e) {
-      var p = JSON.parse(e.target.result);
-    };
-  })(f);
-
-  console.log(reader.readAsText(f));
-}
-
 export function handleDragOver(evt) {
   evt.stopPropagation();
   evt.preventDefault();
@@ -39,6 +13,13 @@ export function drop(e) {
 
   var dt = e.dataTransfer;
   var files = dt.files;
+
+  let output = [];
+  output.push('<li><strong>', escape(files[0].name), '</strong> (', files[0].type || 'n/a',
+    ') - ', files[0].size, ' bytes, last modified: ',
+    files[0].lastModifiedDate.toLocaleDateString(), '</li>');
+
+  window.document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
 
   handleFile(files);
 
