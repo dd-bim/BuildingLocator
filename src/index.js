@@ -1,3 +1,5 @@
+import '@babel/polyfill';
+
 import Map from 'ol/Map';
 import VectorLayer from 'ol/layer/vector';
 import VectorSource from 'ol/source/vector';
@@ -73,7 +75,7 @@ const topPlusSingleImageWMS = new ImageLayer({
   })
 });*/
 
-var editLayer = new VectorLayer({
+const editLayer = new VectorLayer({
   source: new VectorSource()
 });
 

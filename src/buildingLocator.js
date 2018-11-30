@@ -196,8 +196,11 @@ function getRotation(worldCoords, wktCoords) {
   var vecWorldNorm = normalize(vecWorld);
   var vecWKTNorm = normalize(vecWKT);
 
-  var rotX = vecWorldNorm[1]*vecWKTNorm[0] - vecWorldNorm[0]*vecWKTNorm[1];
+  var rotX = vecWorldNorm[0]*vecWKTNorm[0] + vecWorldNorm[1]*vecWKTNorm[1];
   var rotY = vecWorldNorm[0]*vecWKTNorm[1] - vecWKTNorm[0]*vecWorldNorm[1];
+
+  var rad = Math.atan2(rotY, rotX);
+  var deg = rad * (180/Math.PI);
 
   return [rotX, rotY];
 }
