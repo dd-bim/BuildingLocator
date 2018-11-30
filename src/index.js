@@ -75,6 +75,7 @@ const topPlusSingleImageWMS = new ImageLayer({
   })
 });*/
 
+
 const editLayer = new VectorLayer({
   source: new VectorSource()
 });

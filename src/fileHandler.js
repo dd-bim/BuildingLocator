@@ -32,7 +32,6 @@ export function handleFile(files) {
 
     reader.onload = (function (theFile) {
       return function(e) {
-        console.log('e read as text = ', e);
 
         var loGeoRefFile = JSON.parse(e.target.result);
 

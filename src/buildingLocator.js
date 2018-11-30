@@ -194,8 +194,8 @@ function getRotation(worldCoords, wktCoords) {
   var rotX = vecWorldNorm[0]*vecWKTNorm[0] + vecWorldNorm[1]*vecWKTNorm[1];
   var rotY = vecWorldNorm[0]*vecWKTNorm[1] - vecWKTNorm[0]*vecWorldNorm[1];
 
-  var rad = Math.atan2(rotY, rotX);
-  var deg = rad * (180/Math.PI);
+  //var rad = Math.atan2(rotY, rotX);
+  //var deg = rad * (180/Math.PI);
 
   return [rotX, rotY];
 }
@@ -212,7 +212,7 @@ export function queryNominatim(editLayer) {
   var source = editLayer.getSource();
   
   if (source.getFeatures().length < 1) {
-    alert('There is no feature in map!');
+    alert('There is no feature in the map!');
     return;
   }
   
@@ -234,7 +234,6 @@ export function queryNominatim(editLayer) {
 
   $.getJSON(url).done(
     function (data) {
-      console.log(data);
       var json = data;
       var country = data.address.country;
       var region = data.address.state;
@@ -281,7 +280,35 @@ function getWorldPosition(wktString) {
     var angle = Math.atan2(parseFloat(rotation[1]), parseFloat(rotation[0]));
 
     featureToRotGeom.rotate(angle, anchor);
+
+    window.map.getView().setCenter(featureToRotGeom.getCoordinates()[0][1]);
+
     return featureToRotGeom.getCoordinates()[0];
+  }
+
+  else if(window.document.getElementById('level50Status').innerHTML == false && window.loFile.LoGeoRef20[0].GeoRef20 == true) {
+    var lat = parseFloat(window.loFile.LoGeoRef20[0].Latitude);
+    var lon = parseFloat(window.loFile.LoGeoRef20[0].Longitude);
+
+    var curProj = window.map.getView().getProjection();
+    var pointFeature = new Feature({
+      geometry: new Point([lon, lat])
+    });
+
+    pointFeature.getGeometry().transform('EPSG:4326', curProj);
+    var startingPoint = pointFeature.getGeometry().getCoordinates();
+    
+    for (var i=0; i<polyCoordinates.length; i++) {
+  
+      var newX = startingPoint[0] + parseFloat(polyCoordinates[i][0]);
+      var newY = startingPoint[1] + parseFloat(polyCoordinates[i][1]);
+  
+      newCoords.push([newX, newY]);
+    }
+
+    window.map.getView().setCenter(newCoords[1]);
+
+    return newCoords;
   }
 
   else {
