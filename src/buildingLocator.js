@@ -107,11 +107,6 @@ export function getProjectBasePointFromFeature(feature) {
     return new Point([cordBPX, cordBPY]);
 }
 
-function insertOrigin(wkt) {
-  var output = [wkt.slice(0, 9), '0 0,', wkt.slice(9, wkt.indexOf(')')), ', 0 0))'].join('');
-  return output;
-}
-
 function getProjectBasePointWGS84(feature) {
   const view = window.map.getView();
   var curProj = view.getProjection();
@@ -210,14 +205,6 @@ function normalize(vector) {
   var normalizedVector = [vector[0]/length, vector[1]/length];
 
   return normalizedVector;
-}
-
-function queryGISgraphy(coordinates) {
-
-}
-
-function queryOpenCageData(coordinates) {
-
 }
 
 export function queryNominatim(editLayer) {
