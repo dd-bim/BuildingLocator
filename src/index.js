@@ -64,7 +64,7 @@ const topPlusSingleImageWMS = new ImageLayer({
   source: new ImageSource({
     url: 'http://sgx.geodatenzentrum.de/wms_topplus_web_open?',
     params: {'Layers': 'web'},
-    attributions: ['<a href="http://www.bkg.bund.de">Bundesamt für Kartographie und Geodäsie </a>  2018, <a href="http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf" Datenquellen']
+    attributions: ['<a href="http://www.bkg.bund.de">Bundesamt für Kartographie und Geodäsie </a>', ' 2018', '<a href="http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf"> Datenquellen </a>'].join('')
   })
 });
 
@@ -137,7 +137,6 @@ const rotate = new RotateFeatureInteraction({
   anchor: [ 0, 0 ],
   angle: -90 * Math.PI / 180,
   style: CustomStyle.getRotateStyle()
-  //style: createStyle()
 })
 
 $("input[name='EditControl']").change( function() {
