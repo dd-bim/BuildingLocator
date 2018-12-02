@@ -7,7 +7,20 @@ export function handleDragOver(evt) {
 
 }
 
-export function drop(e) {
+export function handleFileSelect(evt) {
+  var files = evt.target.files;
+
+  let output = [];
+  output.push('<li><strong>', escape(files[0].name), '</strong> (', files[0].type || 'n/a',
+    ') - ', files[0].size, ' bytes, last modified: ' /*,
+    files[0].lastModifiedDate.toLocaleDateString(), '</li>' */ );
+
+  window.document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+
+  handleFile(files);
+}
+
+/*export function drop(e) {
   e.stopPropagation();
   e.preventDefault();
 
@@ -23,7 +36,7 @@ export function drop(e) {
 
   handleFile(files);
 
-}
+}*/
 
 export function handleFile(files) {
   for (var i=0; i<files.length; i++) {
