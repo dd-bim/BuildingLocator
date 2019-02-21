@@ -4,11 +4,11 @@
  * @license MIT
  * @author Vladimir Vershinin
  */
-import RotateFeatureInteraction from "./interaction"
+import RotateFeatureInteraction from './interaction';
 
 // for backward compatibility
 if (typeof window !== 'undefined' && window.ol) {
-  window.ol.interaction.RotateFeature = RotateFeatureInteraction
+  window.ol.interaction.RotateFeature = RotateFeatureInteraction;
 }
 
-export default RotateFeatureInteraction
+export default RotateFeatureInteraction;

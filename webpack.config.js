@@ -31,12 +31,12 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        loader: 'svg-inline-loader'
+        loader: 'svg-inline-loader',
       },
       {
-        test:/\.css$/,
-        use:['style-loader','css-loader']
-      }
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
   devtool: 'source-map',

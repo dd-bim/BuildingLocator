@@ -10,11 +10,11 @@
  * @param {string} message
  * @throws Error
  */
-export function assert (condition, message = '') {
-  message = [ 'Assertion failed', message ].join(': ')
+export function assert(condition, message = '') {
+  message = ['Assertion failed', message].join(': ');
 
   if (!condition) {
-    throw new Error(message)
+    throw new Error(message);
   }
 }
 
@@ -22,34 +22,34 @@ export function assert (condition, message = '') {
  * @param {*} arg
  * @returns {*}
  */
-export function identity (arg) {
-  return arg
+export function identity(arg) {
+  return arg;
 }
 
 /**
  * @param {...*} args
  * @return {*}
  */
-export function coalesce (...args) {
-  return args.filter(value => value != null).shift()
+export function coalesce(...args) {
+  return args.filter(value => value != null).shift();
 }
 
-const counters = {}
+const counters = {};
 /**
  * @param {string} [prefix]
  * @return {number}
  */
-export function uniqId (prefix = '') {
-  const ns = prefix || 'default'
-  counters[ ns ] = counters[ ns ] == null ? 0 : counters[ ns ]
+export function uniqId(prefix = '') {
+  const ns = prefix || 'default';
+  counters[ns] = counters[ns] == null ? 0 : counters[ns];
 
-  return String(prefix) + (++counters[ ns ])
+  return String(prefix) + (++counters[ns]);
 }
 
-export function includes (arr, value) {
-  return arr.indexOf(value) !== -1
+export function includes(arr, value) {
+  return arr.indexOf(value) !== -1;
 }
 
-export function isArray (val) {
+export function isArray(val) {
   return Object.prototype.toString.call(val) === '[object Array]';
 }
