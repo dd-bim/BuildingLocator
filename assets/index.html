@@ -9,7 +9,6 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css">
-
     <style>
     </style>
     <link rel="stylesheet" href="https://openlayers.org/en/v5.3.0/css/ol.css" type="text/css">
@@ -18,89 +17,124 @@
     <div class="containter-fluid">
       <h1>HTW DD Building Locator</h1>
       <div class="row">
-      <div class="col-md-6" id="map"></div>
-      <div class="col-md-6" id="controls">
-        <textarea id="input">POLYGON((0 0, 300 0, 300 90, 240 90, 240 45, 0 45, 0 0))</textarea>
-        <button id="drawWKT">WKT zeichnen</button>
-        <button id="savePosition">save Position</button>
-        <textarea id="output">result</textarea>
-        <div id="basePointWGS84">ProjektBasisPunkt in WGS 84: </div>
-        <fieldset>
-          <input type="radio" id="rd-3857" name="Projection"  value="3857"> <label for="rd-3857">EPSG: 3857 (Web-Mercator)</label><br>
-          <input type="radio" id="rd-4326" name="Projection" value="4326"> <label for="rd-4326">EPSG: 4326 (WGS84 LatLon)</label><br>
-          <input type="radio" id="rd-25832" name="Projection" value="25832"> <label for="rd-25832" value="25832">EPSG: 25832 (UTM Zone 32N)</label><br>
-          <input type="radio" id="rd-25833" name="Projection" value="25833" checked="checked"> <label for="rd-25833" value="25833">EPSG: 25833 (UTM Zone 33N)</label><br>
-        </fieldset>
-        <fieldset>
-          <input type="radio" id="move" name="EditControl" value="move" checked="checked"> <label for="none"> verschieben</label> <br>
-          <input type="radio" id="rotate" name="EditControl" value="rotate"> <label for="none"> drehen</label> <br>
-        </fieldset>
-        <fieldset>
-          <button id="delete" >Auswahl löschen</button>
-          <button id="getAddress">Adresse ermitteln</button>
-          <button id="saveFile">JSON-Datei herunterladen</button>
-          <button id="extent">Ber Extent</button>
-          <div id="status"></div>
+        <div class="col-md-6" id="map">
+          <div class="bl-toolbar">
+            <div class="btn-group btn-group-toggle">
+                <label class="btn btn-secondary active">
+                  <input type="radio" value="move" name="EditControl" id="move" autocomplete="off" checked> move
+                </label>
+                <label class="btn btn-secondary">
+                  <input type="radio" value="rotate" name="EditControl" id="rotate" autocomplete="off"> rotate
+                </label>
+            </div>
+            <div class="btn btn-secondary" id="delete">delete</div>
+            <div class="btn btn-secondary" id="zoomToFeature">Zoom to Feature</div>
+          </div>
           <div id="myPosition"></div>
-        </fieldset>
-        <fieldset>
-          <input type="file" id="files">
-          <output id="list"></output>
-        </fieldset>
-        <table>
-          <tr>
-            <td>Land</td>
-            <td>
-              <textarea id="country"></textarea>
-            </td>
-            <td>Level50 Status</td>
-            <td id="level50Status"></td>
-          </tr>
-          <tr>
-            <td>Region</td>
-            <td>
-              <textarea id="region"></textarea>
-            </td>
-            <td>Eastings</td>
-            <td id="eastings"></td>
-          </tr>
-          <tr>
-            <td>Stadt</td>
-            <td>
-              <textarea id="city"></textarea>
-            </td>
-            <td>Northings</td>
-            <td id="northings"></td>
-          </tr>
-          <tr>
-            <td>PLZ</td>
-            <td>
-              <textarea id="postCode"></textarea>
-            </td>
-            <td>RotationXY</td>
-            <td id="rotation50"></td>
-          </tr>
-          <tr>
-            <td>Straße</td>
-            <td>
-              <textarea id="road"></textarea>
-            </td>
-          </tr>
-          <tr>
-            <td>Hausnummer</td>
-            <td>
-              <textarea	id="houseNumber"></textarea>
-            </td>
-          </tr>
-        </table>
-      </div>
+        </div>
+        <div class="col-md-6" id="controls">
+          
+          <div>
+            <input type="file" id="files">
+            <output id="list"></output>
+          <div>
+          
+          <textarea id="input">POLYGON((0 0, 300 0, 300 90, 240 90, 240 45, 0 45, 0 0))</textarea>
+          <button id="drawWKT">WKT zeichnen</button>
+          <button id="savePosition">save Position</button>
+          <textarea id="output">result</textarea>
+          <div id="basePointWGS84">ProjektBasisPunkt in WGS 84: </div>
+          
+          <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Map Projection</label>
+              </div>
+              <select class="custom-select" id="projSelect">
+                <option selected value="25833">EPSG: 25833 (UTM Zone 33N)</option>
+                <option value="25832">EPSG: 25832 (UTM Zone 32N)</option>
+                <option value="4326">EPSG: 4326 (WGS84 LatLon)</option>
+                <option value="3857">EPSG: 3857 (Web-Mercator)</option>
+              </select>
+          </div>
+          
+          
+          
+          <!--<div class="btn-group btn-group-vertical btn-group-toogle">
+            <label class="btn btn-secondary" >EPSG: 3857 (Web-Mercator)
+              <input type="radio" id="rd-3857" name="Projection"  value="3857">
+            </label>
+            <label class="btn btn-secondary" >EPSG: 4326 (WGS84 LatLon)
+              <input type="radio" id="rd-4326" name="Projection" value="4326">
+            </label>
+            <label class="btn btn-secondary" >EPSG: 25832 (UTM Zone 32N)
+              <input type="radio" id="rd-25832" name="Projection" value="25832">
+            </label>
+            <label class="btn btn-secondary active" >EPSG: 25833 (UTM Zone 33N)
+              <input type="radio" id="rd-25833" name="Projection" value="25833" checked>
+            </label>
+          </div>-->
+          <fieldset>
+            <button id="getAddress">Adresse ermitteln</button>
+            <button id="saveFile">JSON-Datei herunterladen</button>
+            <div id="status"></div>
+            
+          </fieldset>
+          
+          <table>
+            <tr>
+              <td>Land</td>
+              <td>
+                <textarea id="country"></textarea>
+              </td>
+              <td>Level50 Status</td>
+              <td id="level50Status"></td>
+            </tr>
+            <tr>
+              <td>Region</td>
+              <td>
+                <textarea id="region"></textarea>
+              </td>
+              <td>Eastings</td>
+              <td id="eastings"></td>
+            </tr>
+            <tr>
+              <td>Stadt</td>
+              <td>
+                <textarea id="city"></textarea>
+              </td>
+              <td>Northings</td>
+              <td id="northings"></td>
+            </tr>
+            <tr>
+              <td>PLZ</td>
+              <td>
+                <textarea id="postCode"></textarea>
+              </td>
+              <td>RotationXY</td>
+              <td id="rotation50"></td>
+            </tr>
+            <tr>
+              <td>Straße</td>
+              <td>
+                <textarea id="road"></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td>Hausnummer</td>
+              <td>
+                <textarea	id="houseNumber"></textarea>
+              </td>
+            </tr>
+          </table>
+        </div>
     </div>
     </div>
-    <script src="js/bundle.js"></script>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="js/bundle.js"></script>
   </body>
 </html>

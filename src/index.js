@@ -22,6 +22,8 @@ import * as BuildingLocator from './buildingLocator';
 import * as CustomStyle from './customStyles';
 import * as fileHandler from './fileHandler';
 
+import './css/buildingLocator.css';
+
 window.loFile = '';
 
 proj4.defs('EPSG:25833', '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
@@ -82,6 +84,9 @@ const editLayer = new VectorLayer({
 });
 
 window.map = new Map({
+  //controls: defaultControls().extend([
+  //  new toolbar.cusomButton()
+  //]),
   interactions: defaultInteractions().extend([selectedFeature, translate]),
   layers: [
     // topPlusWMSTiles,
@@ -92,7 +97,7 @@ window.map = new Map({
   view: viewUTM33,
 });
 
-$('#extent').on('click', () => {
+$('#zoomToFeature').on('click', () => {
   let extent = editLayer.getSource().getExtent();
   if (isNaN(extent[0] + extent[1] + extent[2] + extent[3]) == false) {
     window.map.getView().fit(extent);
@@ -132,6 +137,23 @@ $("input[name='Projection']").change(function () {
   }
 });
 
+$('#projSelect').change(function () {
+  switch (this.value) {
+    case '4326':
+      window.map.setView(viewWGS84);
+      break;
+    case '3857':
+      window.map.setView(viewWebMercator);
+      break;
+    case '25833':
+      window.map.setView(viewUTM33);
+      break;
+    case '25832':
+      window.map.setView(viewUTM32);
+      break;
+  }
+});
+
 const mousePosition = new MousePosition({
   coordinateFormat: createStringXY(2),
   projecton: window.map.getView().getProjection(),
@@ -148,8 +170,8 @@ const rotate = new RotateFeatureInteraction({
   style: CustomStyle.getRotateStyle(),
 });
 
-$("input[name='EditControl']").change(function () {
-  switch (this.value) {
+$('input[name="EditControl"]').change((e) => {
+  switch (e.target.value) {
     case 'move':
       window.map.addInteraction(translate);
       window.map.removeInteraction(rotate);
@@ -157,21 +179,35 @@ $("input[name='EditControl']").change(function () {
       break;
     case 'rotate':
       var featureToRotate = selectedFeature.getFeatures().item(0);
-      var projectBasePoint = BuildingLocator.getProjectBasePointFromFeature(featureToRotate);
+      
+      if (featureToRotate != undefined) {
+        var projectBasePoint = BuildingLocator.getProjectBasePointFromFeature(featureToRotate);
 
-      console.log(projectBasePoint);
+        console.log(projectBasePoint);
 
-      rotate.setAnchor(projectBasePoint.getCoordinates());
+        rotate.setAnchor(projectBasePoint.getCoordinates());
+      }
+
       window.map.removeInteraction(translate);
       window.map.addInteraction(rotate);
       break;
   }
+  $('input[name="EditControl"]').parent().removeClass("active");
+  $(e.target).parent().addClass("active")
 });
 
+
 $('#delete').on('click', () => {
-  if (selectedFeature.getFeatures().getLength() === 0) {
+
+  if (editLayer.getSource().getFeatures().length > 0 && selectedFeature.getFeatures().getLength() === 0) {
+    alert('Select the feature for deleting!');
+  }
+  
+  else if (selectedFeature.getFeatures().getLength() === 0) {
     alert('Map already empty!');
-  } else {
+  } 
+  
+  else {
     selectedFeature.getFeatures().item(0).setStyle(CustomStyle.getDeleteStyle());
     const source = editLayer.getSource();
     source.clear();
