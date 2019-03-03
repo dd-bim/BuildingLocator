@@ -38,13 +38,7 @@
             <input type="file" id="files" class="custom-file-input">
             <label class="custom-file-label" for="files">Choose File</label>
             <output id="list"></output>
-          <div>
-          
-          <textarea id="input">POLYGON((0 0, 300 0, 300 90, 240 90, 240 45, 0 45, 0 0))</textarea>
-          <button id="drawWKT">WKT zeichnen</button>
-          <button id="savePosition">save Position</button>
-          <textarea id="output">result</textarea>
-          <div id="basePointWGS84">ProjektBasisPunkt in WGS 84: </div>
+          </div>
           
           <div class="input-group mb-3">
               <div class="input-group-prepend">
@@ -57,6 +51,14 @@
                 <option value="3857">EPSG: 3857 (Web-Mercator)</option>
               </select>
           </div>
+
+          <textarea id="input">POLYGON((0 0, 300 0, 300 90, 240 90, 240 45, 0 45, 0 0))</textarea>
+          <button id="drawWKT">WKT zeichnen</button>
+          <button id="savePosition">save Position</button>
+          <textarea id="output">result</textarea>
+          <div id="basePointWGS84">ProjektBasisPunkt in WGS 84: </div>
+          
+
           
           
           
@@ -128,8 +130,6 @@
             </tr>
           </table>
         </div>
-    </div>
-    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

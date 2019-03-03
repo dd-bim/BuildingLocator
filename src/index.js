@@ -154,14 +154,14 @@ $('#projSelect').change(function () {
   }
 });
 
-const mousePosition = new MousePosition({
+/*const mousePosition = new MousePosition({
   coordinateFormat: createStringXY(2),
   projecton: window.map.getView().getProjection(),
   target: document.getElementById('myPosition'),
   undefinedHTML: '&nbsp;',
-});
+});*/
 
-window.map.addControl(mousePosition);
+//window.map.addControl(mousePosition);
 
 const rotate = new RotateFeatureInteraction({
   features: selectedFeature.getFeatures(),

@@ -14,6 +14,10 @@
   z-index: 999;
 }
 
-.ol-mouse-position {
-  position: absolute;
+#map {
+  padding-left: 25px;
+}
+
+h1 {
+  padding-left: 8px;
 }
