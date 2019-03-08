@@ -59,7 +59,7 @@ function handleLoGeoRefFile(JSONFile) {
   let wktRep = JSONFile.WKTRep;
   wktRep = insertOrigin(wktRep);
 
-  $('#input').val(wktRep);
+  $('#wktRepIn').val(wktRep);
 
   readLevel50();
 }
@@ -74,10 +74,23 @@ function readLevel50() {
     const transEast = window.loFile.LoGeoRef50[0].Translation_Eastings;
     const transNorth = window.loFile.LoGeoRef50[0].Translation_Northings;
     const rotationXY = window.loFile.LoGeoRef50[0].RotationXY;
+    //const EPSGCode = window.loFile.loGeoRef50[0].CRS_Name;
 
-    window.document.getElementById('level50Status').innerHTML = 'true';
-    window.document.getElementById('eastings').innerHTML = transEast;
-    window.document.getElementById('northings').innerHTML = transNorth;
-    window.document.getElementById('rotation50').innerHTML = `${rotationXY[0]} ${rotationXY[1]}`;
+    $('#level50Status').attr('value', 'true');
+    //$('#level50EPSG').attr('value', EPSGCode);
+    $('#eastings').attr('value', transEast);
+    $('#northings').attr('value', transNorth);
+    $('#rotation50').attr('value', `${rotationXY[0]} ${rotationXY[1]}`);
+    
+    //window.document.getElementById('eastings').innerHTML = transEast;
+    //window.document.getElementById('northings').innerHTML = transNorth;
+    //window.document.getElementById('rotation50').innerHTML = `${rotationXY[0]} ${rotationXY[1]}`;
+  }
+
+  else {
+    $('#level50Status').attr('value', 'false');
+    $('#eastings').attr('value', 'not specified');
+    $('#northings').attr('value', 'not specified');
+    $('#rotation50').attr('value', 'not specified');
   }
 }

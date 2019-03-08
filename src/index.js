@@ -112,12 +112,12 @@ $('#savePosition').on('click', () => {
   BuildingLocator.savePosition(editLayer);
 });
 
-$('#getAddress').on('click', () => {
+$('#queryOSM').on('click', () => {
   BuildingLocator.queryNominatim(editLayer);
 });
 
 $('#saveFile').on('click', () => {
-  BuildingLocator.downloadJSONFile(JSON.stringify(window.loFile), 'buildingLocator.json');
+  BuildingLocator.downloadJSONFile(JSON.stringify(window.loFile), 'update.json');
 });
 
 $("input[name='Projection']").change(function () {

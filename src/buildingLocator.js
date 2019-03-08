@@ -10,6 +10,7 @@ import proj4 from 'proj4';
 
 proj4.defs('EPSG:25833', '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
 proj4.defs('EPSG:25832', '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
+proj4.defs('EPSG:3857','+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs');
 register(proj4);
 
 let wktString = '';
@@ -18,10 +19,18 @@ function getWorldPosition(wktString) {
   const newCoords = [];
   let polyCoordinates = wktString.getGeometry().getCoordinates()[0];
 
-  if (window.document.getElementById('level50Status').innerHTML) {
-    const eastings = window.document.getElementById('eastings').innerHTML;
-    const northings = window.document.getElementById('northings').innerHTML;
-    let rotation = window.document.getElementById('rotation50').innerHTML;
+  if (JSON.parse($('#level50Status').attr('value'))) {
+    const eastings = parseFloat($('#eastings').attr('value'));
+    //const eastings = window.document.getElementById('eastings').innerHTML;
+
+
+    //const northings = window.document.getElementById('northings').innerHTML;
+    const northings = parseFloat($('#northings').attr('value'));
+
+
+    //let rotation = window.document.getElementById('rotation50').innerHTML;
+    let rotation = $('#rotation50').attr('value');
+
     rotation = rotation.split(' ');
 
     for (let i = 0; i < polyCoordinates.length; i++) {
@@ -37,7 +46,7 @@ function getWorldPosition(wktString) {
 
     const featureToRotGeom = featureToRot.getGeometry();
     const anchor = newCoords[0];
-    const angle = Math.atan2(parseFloat(rotation[1]), parseFloat(rotation[0]));
+    const angle = Math.atan2(parseFloat(rotation[0]), parseFloat(rotation[1]));
 
     featureToRotGeom.rotate(angle, anchor);
 
@@ -46,7 +55,7 @@ function getWorldPosition(wktString) {
     return featureToRotGeom.getCoordinates()[0];
   }
 
-  if (window.document.getElementById('level50Status').innerHTML == false && window.loFile.LoGeoRef20[0].GeoRef20 == true) {
+  if (JSON.parse($('#level50Status').attr('value')) == false && window.loFile.LoGeoRef20[0].GeoRef20 == true) {
     const lat = parseFloat(window.loFile.LoGeoRef20[0].Latitude);
     const lon = parseFloat(window.loFile.LoGeoRef20[0].Longitude);
 
@@ -99,7 +108,7 @@ export function drawWKT(editLayer) {
     return;
   }
 
-  wktString = $('#input').val();
+  wktString = $('#wktRepIn').val();
 
   const format = new WKT();
 
@@ -134,7 +143,7 @@ export function savePosition(editLayer) {
   const newHTML = `ProjektBasisPunkt in WGS 84 ${projectBasePointWGS84[0]} ${projectBasePointWGS84[1]}`;
   $('#basePointWGS84').html(newHTML);
 
-  document.getElementById('output').textContent = wktRep;
+  //document.getElementById('output').textContent = wktRep;
   setLevel10();
   setLevel20(projectBasePointWGS84);
   setLevel30();
@@ -166,7 +175,7 @@ export function downloadJSONFile(text, fileName) {
 
 export function getProjectBasePointFromFeature(feature) {
   const format = new WKT();
-  const featureWKT = format.readFeature($('#input').val(), {
+  const featureWKT = format.readFeature($('#wktRepIn').val(), {
     dataProjection: window.map.getView().getProjection(),
     featureProjection: window.map.getView().getProjection(),
   });
@@ -194,11 +203,11 @@ function setLevel10() {
   for (const item of level10) {
     if (item.Reference_Object.includes('IfcBuilding')) {
       item.GeoRef10 = true;
-      item.Postalcode = window.document.getElementById('postCode').innerHTML;
-      item.Town = window.document.getElementById('city').innerHTML;
-      item.Region = window.document.getElementById('region').innerHTML;
-      item.Country = window.document.getElementById('country').innerHTML;
-      item.AddressLines = [window.document.getElementById('road').innerHTML, ' ', window.document.getElementById('houseNumber').innerHTML].join('');
+      item.Postalcode = $('#zip').attr('value');;
+      item.Town = $('#city').attr('value');
+      item.Region = $('#region').attr('value');
+      item.Country = $('#country').attr('value');
+      item.AddressLines = [[$('#street').attr('value'), ' ', $('#number').attr('value')].join('')];
     }
   }
 }
@@ -266,7 +275,7 @@ function getRotation(worldCoords, wktCoords) {
   // var rad = Math.atan2(rotY, rotX);
   // var deg = rad * (180/Math.PI);
 
-  return [rotX, rotY];
+  return [-rotY, rotX];
 }
 
 export function queryNominatim(editLayer) {
@@ -300,14 +309,20 @@ export function queryNominatim(editLayer) {
       const city = data.address.city;
       const road = data.address.road;
       const postcode = data.address.postcode;
-      const houseNumber = data.address.house_number;
+      let houseNumber = 'Number Not Defined';
+      
+      if (data.address.hasOwnProperty('house_number'))
+      {
+        houseNumber = data.address.house_number;
+      }
 
-      window.document.getElementById('country').innerHTML = country;
-      window.document.getElementById('region').innerHTML = region;
-      window.document.getElementById('city').innerHTML = city;
-      window.document.getElementById('road').innerHTML = road;
-      window.document.getElementById('postCode').innerHTML = postcode;
-      window.document.getElementById('houseNumber').innerHTML = houseNumber;
+
+      $('#country').attr('value', country);
+      $('#region').attr('value', region);
+      $('#city').attr('value', city);
+      $('#zip').attr('value', postcode);
+      $('#street').attr('value', road);
+      $('#number').attr('value', houseNumber);
     },
   );
 }
