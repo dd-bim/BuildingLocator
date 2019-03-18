@@ -61,6 +61,7 @@ function handleLoGeoRefFile(JSONFile) {
 
   $('#wktRepIn').val(wktRep);
 
+  readLevel20();
   readLevel50();
 }
 
@@ -92,5 +93,18 @@ function readLevel50() {
     $('#eastings').attr('value', 'not specified');
     $('#northings').attr('value', 'not specified');
     $('#rotation50').attr('value', 'not specified');
+  }
+}
+
+function readLevel20() {
+  if (window.loFile.LoGeoRef20[0].GeoRef20) {
+    const lat20 = window.loFile.loGeoRef20[0].Latitude;
+    const lon20 = window.loFile.loGeoRef20[0].Longitude;
+    const elevation = window.loFile.loGeoRef20[0].Elevation;
+    
+    $('#level20Status').attr('value', 'true');
+    $('#lat20').attr('value', lat20);
+    $('#lon20').attr('value', lon20);
+    $('#elev20').attr('value', elevation);
   }
 }

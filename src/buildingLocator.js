@@ -307,7 +307,7 @@ export function queryNominatim(editLayer) {
       const country = data.address.country;
       const region = data.address.state;
       const city = data.address.city;
-      const road = data.address.road;
+      let road = data.address.road;
       const postcode = data.address.postcode;
       let houseNumber = 'Number Not Defined';
       

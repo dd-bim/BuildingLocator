@@ -214,10 +214,4 @@ $('#delete').on('click', () => {
   }
 });
 
-// let dropZone = document.getElementById('dropZone');
-// dropZone.addEventListener('dragover', fileHandler.handleDragOver, false);
-// dropZone.addEventListener('drop', fileHandler.handleFileSelect, false);
-
-// dropZone.addEventListener("drop", fileHandler.drop, false);
-
 document.getElementById('files').addEventListener('change', fileHandler.handleFileSelect, false);

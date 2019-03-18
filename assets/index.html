@@ -16,7 +16,7 @@
   <body class="h-100">
     <div class="containter-fluid h-100">
       
-      <div class="row h-100">
+      <div class="row h-100" id="singleRow">
         <div class="col-md-6" id="map">
           <div class="bl-toolbar">
             <div class="btn-group btn-group-toggle">
@@ -89,19 +89,38 @@
                     </ul>
                     <div class="tab-content" id="myTabContent">
                       <div class="tab-pane fade show active" id="lv10" role="tabpanel" aria-labelledby="lv10-tab">
-                        <h5>Level 10</h5>
+                        <div class="form-group row">
+                          <label for="level10Status" readonly class="col-sm-2 col-form-label">Level 10 Status for IfcBuilding</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control-plaintext" id="level10Status">
+                          </div>
+                        </div>
                       </div>
                       <div class="tab-pane fade" id="lv20" role="tabpanel" aria-labelledby="lv20-tab">
-                        <h5>Level 20</h5>
+                        <div class="form-group row">
+                          <label for="level20Status" readonly class="col-sm-2 col-form-label">Level 20 Status</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control-plaintext" id="level20Status">
+                          </div>
+                          <label for="lat20" readonly class="col-sm-2 col-form-label">Latitude</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control-plaintext" id="lat20">
+                          </div>
+                          <label for="lon20" readonly class="col-sm-2 col-form-label">Longitude</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control-plaintext" id="lon20">
+                          </div>
+                          <label for="elev20" readonly class="col-sm-2 col-form-label">Elevation</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control-plaintext" id="elev20">
+                          </div>
+                        </div>
                       </div>
                       <div class="tab-pane fade" id="lv30" role="tabpanel" aria-labelledby="lv30-tab">
-                        <h5>Level 30</h5>
                       </div>
                       <div class="tab-pane fade" id="lv40" role="tabpanel" aria-labelledby="lv40-tab">
-                        <h5>Level 40</h5>
                       </div>
                       <div class="tab-pane fade" id="lv50" role="tabpanel" aria-labelledby="lv50-tab">
-                        <h5>Level 50</h5>
                         <div class="form-group row">
                           <label for="level50Status" readonly class="col-sm-2 col-form-label">Level 50 Status</label>
                           <div class="col-sm-10">
