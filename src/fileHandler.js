@@ -11,52 +11,31 @@ export function handleFileSelect(evt) {
 
   const output = [];
   output.push('<li><strong>', escape(files[0].name), '</strong> (', files[0].type || 'n/a',
-    ') - ', files[0].size, ' bytes, last modified: ', /* ,
-    files[0].lastModifiedDate.toLocaleDateString(), '</li>' */);
+    ') - ', files[0].size, ' bytes, last modified: ');
 
   window.document.getElementById('list').innerHTML = `<ul>${output.join('')}</ul>`;
 
   handleFile(files);
 }
 
-/* export function drop(e) {
-  e.stopPropagation();
-  e.preventDefault();
 
-  var dt = e.dataTransfer;
-  var files = dt.files;
-
-  let output = [];
-  output.push('<li><strong>', escape(files[0].name), '</strong> (', files[0].type || 'n/a',
-    ') - ', files[0].size, ' bytes, last modified: ',
-    files[0].lastModifiedDate.toLocaleDateString(), '</li>');
-
-  window.document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-
-  handleFile(files);
-
-} */
 
 export function handleFile(files) {
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     const reader = new FileReader();
 
-    reader.onload = (function (theFile) {
-      return function (e) {
-        const loGeoRefFile = JSON.parse(e.target.result);
+    reader.onload = function(event) {
+      window.loFile = JSON.parse(event.target.result);
+      handleLoGeoRefFile();
+    };
 
-        window.loFile = loGeoRefFile;
-
-        handleLoGeoRefFile(loGeoRefFile);
-      };
-    }(file));
     reader.readAsText(file);
   }
 }
 
-function handleLoGeoRefFile(JSONFile) {
-  let wktRep = JSONFile.WKTRep;
+function handleLoGeoRefFile() {
+  let wktRep = window.loFile.WKTRep;
   wktRep = insertOrigin(wktRep);
 
   $('#wktRepIn').val(wktRep);
@@ -75,17 +54,14 @@ function readLevel50() {
     const transEast = window.loFile.LoGeoRef50[0].Translation_Eastings;
     const transNorth = window.loFile.LoGeoRef50[0].Translation_Northings;
     const rotationXY = window.loFile.LoGeoRef50[0].RotationXY;
-    //const EPSGCode = window.loFile.loGeoRef50[0].CRS_Name;
+    const EPSGCode = window.loFile.LoGeoRef50[0].CRS_Name;
 
     $('#level50Status').attr('value', 'true');
-    //$('#level50EPSG').attr('value', EPSGCode);
+    $('#level50EPSG').attr('value', EPSGCode);
     $('#eastings').attr('value', transEast);
     $('#northings').attr('value', transNorth);
     $('#rotation50').attr('value', `${rotationXY[0]} ${rotationXY[1]}`);
     
-    //window.document.getElementById('eastings').innerHTML = transEast;
-    //window.document.getElementById('northings').innerHTML = transNorth;
-    //window.document.getElementById('rotation50').innerHTML = `${rotationXY[0]} ${rotationXY[1]}`;
   }
 
   else {
@@ -98,9 +74,9 @@ function readLevel50() {
 
 function readLevel20() {
   if (window.loFile.LoGeoRef20[0].GeoRef20) {
-    const lat20 = window.loFile.loGeoRef20[0].Latitude;
-    const lon20 = window.loFile.loGeoRef20[0].Longitude;
-    const elevation = window.loFile.loGeoRef20[0].Elevation;
+    var lat20 = window.loFile.LoGeoRef20[0].Latitude;
+    var lon20 = window.loFile.LoGeoRef20[0].Longitude;
+    var elevation = window.loFile.LoGeoRef20[0].Elevation;
     
     $('#level20Status').attr('value', 'true');
     $('#lat20').attr('value', lat20);
