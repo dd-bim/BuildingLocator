@@ -23,6 +23,7 @@ import * as CustomStyle from './customStyles';
 import * as fileHandler from './fileHandler';
 
 import './css/buildingLocator.css';
+import './css/ol.css';
 
 window.loFile = '';
 
