@@ -197,21 +197,6 @@ function getProjectBasePointWGS84(feature) {
   return projBasePoint;
 }
 
-function setLevel10() {
-  const level10 = window.loFile.LoGeoRef10;
-
-  for (const item of level10) {
-    if (item.Reference_Object.includes('IfcBuilding')) {
-      item.GeoRef10 = true;
-      item.Postalcode = $('#zip').attr('value');;
-      item.Town = $('#city').attr('value');
-      item.Region = $('#region').attr('value');
-      item.Country = $('#country').attr('value');
-      item.AddressLines = [[$('#street').attr('value'), ' ', $('#number').attr('value')].join('')];
-    }
-  }
-}
-
 function setLevel20(coordinates) {
   window.loFile.LoGeoRef20[0].GeoRef20 = true;
   window.loFile.LoGeoRef20[0].Latitude = coordinates[1];

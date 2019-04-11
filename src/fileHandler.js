@@ -40,6 +40,7 @@ function handleLoGeoRefFile() {
 
   $('#wktRepIn').val(wktRep);
 
+  readLevel10();
   readLevel20();
   readLevel50();
 }
@@ -83,4 +84,27 @@ function readLevel20() {
     $('#lon20').attr('value', lon20);
     $('#elev20').attr('value', elevation);
   }
+}
+
+function readLevel10() {
+  const level10 = window.loFile.LoGeoRef10;
+
+  for (const item of level10) {
+    var ifcType = item.Reference_Object[1];
+    var status = item.GeoRef10;
+    var address = item.AddressLines;
+    var zip = item.Postalcode;
+    var town = item.Town;
+    var region = item.Region;
+    var country = item.Country;
+
+    $('#lvl10').append("<p>IFC-Type: " + ifcType + " </p>");
+    $('#lvl10').append("<p>Level10 Status: " + status + " </p>");
+    $('#lvl10').append("<p>Country: " + country + " </p>");
+    $('#lvl10').append("<p>Region: " + region + " </p>");
+    $('#lvl10').append("<p>Town: " + town + " </p>");
+    $('#lvl10').append("<p>ZIP-Code: " + zip + " </p>");
+    $('#lvl10').append("<p>Address: " + address + " </p>");
+  }
+
 }

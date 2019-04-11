@@ -27,3 +27,9 @@ h1 {
 #singleRow {
   margin-right: 0px;
 }
+
+#lvl10 {
+  overflow: auto;
+  height: 150px;
+  width: 100%;
+}
