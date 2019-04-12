@@ -171,6 +171,41 @@
                         <option value="4326">EPSG: 4326 (WGS84 LatLon)</option>
                         <option value="3857">EPSG: 3857 (Web-Mercator)</option>
                       </select>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="customWMSCheck">
+                        <label class="form-check-label" for="customWMSCheck">Use Custom WMS</label>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                          <fieldset id="wmsFS" disabled>
+                            <div class="form-row">
+                              <div class="form-group col-md-6">
+                                <label for="wmsUrl">WMS-URL</label>
+                                <input type="text" class="form-control" id="wmsUrl" placeholder="https://www.wms.nrw.de/geobasis/wms_nw_dop?">
+                              </div>
+                              <div class="form-group col-md-6">
+                                <label for="wmsLayer">Layer</label>
+                                <input type="text" class="form-control" id="wmsLayer" placeholder="WMS_NW_DOP">
+                              </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                  <label for="epsgCode">EPSG-Code</label>
+                                  <input type="text" class="form-control" id="epsgCode" placeholder="EPSG-Code">
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label for="projDef">Proj4 Definition String</label>
+                                  <input type="text" class="form-control" id="projDef" placeholder="proj4 Definition">
+                                </div>
+                              </div>
+                          </fieldset>       
+                        </form>
+                        <div class="row">
+                            <div class="col-sm-10">
+                              <button  class="btn btn-primary" id="loadWMS" disabled="true">Load Custom WMS</button>
+                            </div>
+                        </div>
                       </div>
                   </div>
                 </div>

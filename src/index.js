@@ -26,6 +26,7 @@ import './css/buildingLocator.css';
 import './css/ol.css';
 
 window.loFile = '';
+var customWMSLayer;
 
 proj4.defs('EPSG:25833', '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
 proj4.defs('EPSG:25832', '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
@@ -216,3 +217,38 @@ $('#delete').on('click', () => {
 });
 
 document.getElementById('files').addEventListener('change', fileHandler.handleFileSelect, false);
+
+$('#customWMSCheck').change(function() {
+  if (this.checked) {
+    $('#wmsFS').attr('disabled', false);
+    $('#loadWMS').attr('disabled', false);
+  }
+  else {
+    $('#wmsFS').attr('disabled', true);
+    $('#loadWMS').attr('disabled', true);
+  }
+});
+
+$('#loadWMS').on('click', () => {
+  var WMSUrl = $('#wmsUrl').val();
+  var layer = $('#wmsLayer').val();
+
+  window.map.removeLayer(customWMSLayer);
+
+  customWMSLayer = new ImageLayer({
+    source: new ImageSource({
+      url: WMSUrl,
+      params: { Layers: layer }
+    }),
+  });
+
+  window.map.addLayer(customWMSLayer);
+
+  const viewCustom = new View({
+    center: [807452.924020, 6654857.857019],
+    projection: 'EPSG:3857',
+    zoom: 12,
+  });
+
+  window.map.setView(viewCustom);
+})
