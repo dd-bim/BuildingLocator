@@ -197,6 +197,21 @@ function getProjectBasePointWGS84(feature) {
   return projBasePoint;
 }
 
+function setLevel10() {
+  var level10 = window.loFile.LoGeoRef10;
+
+  for (var item of level10) {
+    if (item.Reference_Object.includes('IfcBuilding') || item.Reference_Object.includes('IfcSite')) {
+      item.GeoRef10 = true;
+      item.Postalcode = $('#zip').attr('value');
+      item.Town = $('#city').attr('value');
+      item.Region = $('#region').attr('value');
+      item.Country = $('#country').attr('value');
+      item.AddressLines = [[$('#street').attr('value'), ' ', $('#number').attr('value')].join('')];
+    }
+  }
+}
+
 function setLevel20(coordinates) {
   window.loFile.LoGeoRef20[0].GeoRef20 = true;
   window.loFile.LoGeoRef20[0].Latitude = coordinates[1];
@@ -236,8 +251,9 @@ function setLevel50(feature) {
   window.loFile.LoGeoRef50[0].RotationXY = rotation;
   window.loFile.LoGeoRef50[0].Translation_Eastings = origin[0];
   window.loFile.LoGeoRef50[0].Translation_Northings = origin[1];
+  window.loFile.LoGeoRef50[0].Scale = 1.0;
 
-  console.log(rotation);
+  //console.log(rotation);
 }
 
 function normalize(vector) {
