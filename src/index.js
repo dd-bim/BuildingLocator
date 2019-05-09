@@ -5,16 +5,11 @@ import VectorLayer from 'ol/layer/vector';
 import VectorSource from 'ol/source/vector';
 import ImageLayer from 'ol/layer/Image';
 import ImageSource from 'ol/source/imagewms';
-import WMTSSource from 'ol/source/wmts';
 import View from 'ol/view';
-import TileLayer from 'ol/layer/tile';
 import { register } from 'ol/proj/proj4';
 import MousePosition from 'ol/control/MousePosition';
 import { createStringXY } from 'ol/coordinate';
 import { Select, Translate, defaults as defaultInteractions } from 'ol/interaction';
-import {defaults as defaultControls, ZoomToExtent} from 'ol/control';
-import { fromLonLat, transform } from 'ol/proj';
-import Projection from 'ol/proj/Projection';
 import WMSCapabilities from 'ol/format/WMSCapabilities';
 import { getCenter } from 'ol/extent';
 
@@ -35,7 +30,6 @@ window.loFile = '';
 window.customWMS = '';
 window.customView = '';
 window.supportedCRS = '';
-//var customWMSLayer;
 
 proj4.defs('EPSG:25833', '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
 proj4.defs('EPSG:25832', '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
@@ -92,7 +86,6 @@ const editLayer = new VectorLayer({
 window.map = new Map({
   interactions: defaultInteractions().extend([selectedFeature, translate]),
   layers: [
-    //testWMS,
     topPlusSingleImageWMS,
     editLayer,
   ],
@@ -169,10 +162,11 @@ $('#CRSSelect').change(function() {
   var fullCode = this.value;
   var number = fullCode.split(':')[1];
 
-  /*$.get('https://www.epsg.io/'+number+'.proj4', function(data) {
-    console.log(data);
-  })*/
-})
+  $.get('https://epsg.io/?q='+number+'&format=json', function(data) {
+    var proj4String = data.results[0].proj4;
+    $('#projDef').val(proj4String);
+  });
+});
 
 $('input[name="EditControl"]').change((e) => {
   switch (e.target.value) {
@@ -235,7 +229,6 @@ $('#addWMS').on('click', () => {
   var layer = $('#layerSelect').val();
   var EPSGCode = $('#CRSSelect').val();
   var proj4Definition = $('#projDef').val();
-  //var projectionName = 'EPSG:'+EPSGCode;
 
   proj4.defs(EPSGCode, proj4Definition);
   register(proj4);
