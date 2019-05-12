@@ -13,7 +13,6 @@ import { Select, Translate, defaults as defaultInteractions } from 'ol/interacti
 import WMSCapabilities from 'ol/format/WMSCapabilities';
 import { getCenter } from 'ol/extent';
 
-
 import proj4 from 'proj4';
 import $ from 'jquery';
 import RotateFeatureInteraction from './indexRot';
@@ -30,10 +29,10 @@ window.loFile = '';
 window.customWMS = '';
 window.customView = '';
 window.supportedCRS = '';
+window.extentWGS84='';
 
 proj4.defs('EPSG:25833', '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
 proj4.defs('EPSG:25832', '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
-proj4.defs('EPSG:31469', '+proj=tmerc +lat_0=0 +lon_0=15 +k=1 +x_0=5500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs');
 register(proj4);
 
 const selectedFeature = new Select({
@@ -76,8 +75,6 @@ const topPlusSingleImageWMS = new ImageLayer({
     attributions: ['<a href="http://www.bkg.bund.de">Bundesamt für Kartographie und Geodäsie </a>', ' 2018', '<a href="http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf"> Datenquellen </a>'].join(''),
   }),
 });
-
-
 
 const editLayer = new VectorLayer({
   source: new VectorSource(),
@@ -247,50 +244,53 @@ $('#addWMS').on('click', () => {
   }
 
   window.map.addLayer(customWMS);
-  var centerCustomWMS = '';
-
-  for (var i = 0; i<window.supportedCRS.length; i++) {
-    if (window.supportedCRS[i].crs == EPSGCode) {
-      centerCustomWMS = getCenter(window.supportedCRS[i].extent);
-      console.log(centerCustomWMS);
-    }
-  }
+  var centerCustomWMSWGS84 = getCenter(window.extentWGS84);
+  var centerCustomWMS = proj4(EPSGCode, centerCustomWMSWGS84);
 
   window.customView = new View({
     projection: EPSGCode,
     center: centerCustomWMS,
-    zoom: 10
+    zoom: 14
   });
 });
 
 $('#queryCap').on('click', () => {
   var WMSUrl = $('#wmsUrl').val();
   var parser = new WMSCapabilities();
-  var caps;
+  var supportedCRS;
+  var allLayers = [];
 
-  $.get(WMSUrl+'service=wms&request=getcapabilities', function(data) {
-    caps = parser.read(data);
-    console.log(caps);
+  $.ajax({
+    type: "GET",
+      url: WMSUrl+'service=wms&request=getcapabilities',
+      dataType: "xml",
+      success: function(xml) {
+         $(xml).find('Layer').each(function(){
+           if ($(this).children("Name").text() != "") {
+             allLayers.push($(this).children("Name").text());
+           }
+        });
+        
+        var caps = parser.read(xml);
+        supportedCRS = caps.Capability.Layer.CRS;
+        extentWGS84 = caps.Capability.Layer.EX_GeographicBoundingBox;
 
-    var layers = caps.Capability.Layer.Layer;
-    var crs = caps.Capability.Layer.CRS;
-    supportedCRS = caps.Capability.Layer.BoundingBox
+        for (var i=0; i<allLayers.length; i++) {
+          var layerName = allLayers[i];
+          var newEntry = ['<option value="', layerName, '">', layerName, '</option>'];
+    
+          $('#layerSelect').append(newEntry.join(""));
+        }
 
-    for (var i=0; i<layers.length; i++) {
-      var layerName = layers[i].Name;
-      var newEntry = ['<option value="', layerName, '">', layerName, '</option>'];
-
-      $('#layerSelect').append(newEntry.join(""));
-    }
-
-    for (var i=0; i<crs.length; i++) {
-      var code = crs[i];
-      var newEntry = ['<option value="', code, '">', code, '</option>'];
-
-      $('#CRSSelect').append(newEntry.join(""));
-    }
-  })
-
-
-
+        for (var i=0; i<supportedCRS.length; i++) {
+          var code = supportedCRS[i];
+          var newEntry = ['<option value="', code, '">', code, '</option>'];
+    
+          $('#CRSSelect').append(newEntry.join(""));
+        }
+      },
+      error: function(ajaxContext) {
+        alert(ajaxContext.responseText + "\n An Error occured! \n see Console for further Information");
+      }
+  });
 });
