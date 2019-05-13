@@ -56,16 +56,16 @@ const viewWebMercator = new View({
 });
 
 const viewUTM32 = new View({
-  center: [831875, 5664306],
+  center: [558281, 5646343],
   projection: 'EPSG:25832',
-  zoom: 15,
+  zoom: 8,
 
 });
 
 const viewUTM33 = new View({
   center: [411243, 5654395],
   projection: 'EPSG:25833',
-  zoom: 17,
+  zoom: 14,
 });
 
 const topPlusSingleImageWMS = new ImageLayer({
@@ -250,7 +250,7 @@ $('#addWMS').on('click', () => {
   window.customView = new View({
     projection: EPSGCode,
     center: centerCustomWMS,
-    zoom: 14
+    zoom: 11
   });
 });
 
@@ -288,9 +288,12 @@ $('#queryCap').on('click', () => {
     
           $('#CRSSelect').append(newEntry.join(""));
         }
+
+        alert('WMS provides ' + allLayers.length + ' Layers \n Please select one and save settings!');
+
       },
       error: function(ajaxContext) {
-        alert(ajaxContext.responseText + "\n An Error occured! \n see Console for further Information");
+        alert(ajaxContext.responseText + "\n An Error occured! \n see JavaScript Console for further Information");
       }
   });
 });
