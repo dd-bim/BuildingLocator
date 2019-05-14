@@ -1,6 +1,6 @@
 # HTW Dresden BuildingLocator
 
-The HTW Dresden BuildingLocator is a simple Web-Application for updating or creating georeferencing information for IFC-based building models. It should be used in conjunction with the HTW Dresden GeoRefChecker
+The HTW Dresden BuildingLocator is a simple Web-Application for updating or creating georeferencing information for IFC-based building models. It should be used in conjunction with the HTW Dresden [GeoRefChecker](https://github.com/dd-bim/IfcGeoRef)
 
 
 
@@ -9,7 +9,6 @@ The HTW Dresden BuildingLocator is a simple Web-Application for updating or crea
 - [OpenLayers](https://openlayers.org)
 - [jQuery](https://jquery.com)
 - [ol-rotate-feature](https://ghettovoice.github.io/ol-rotate-feature/)
-- 
 
 ### Sample WMS that work with the BuildingLocator
 
