@@ -256,7 +256,6 @@ $('#addWMS').on('click', () => {
     $('#projSelect').append('<option value="customWMS">custom WMS</option>');
   }
 
-  //window.map.addLayer(customWMS);
   var centerCustomWMSWGS84 = getCenter(window.extentWGS84);
   var centerCustomWMS = proj4(EPSGCode, centerCustomWMSWGS84);
 
