@@ -30,6 +30,7 @@ window.customWMS = '';
 window.customView = '';
 window.supportedCRS = '';
 window.extentWGS84='';
+window.customWMS ='';
 
 proj4.defs('EPSG:25833', '+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
 proj4.defs('EPSG:25832', '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
@@ -74,6 +75,7 @@ const topPlusSingleImageWMS = new ImageLayer({
     params: { Layers: 'web' },
     attributions: ['<a href="http://www.bkg.bund.de">Bundesamt für Kartographie und Geodäsie </a>', ' 2018', '<a href="http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf"> Datenquellen </a>'].join(''),
   }),
+  name: 'bkgLayer'
 });
 
 const editLayer = new VectorLayer({
@@ -134,23 +136,33 @@ $('#saveFile').on('click', () => {
 $('#projSelect').change(function () {
   switch (this.value) {
     case '4326':
+      map.getLayers().getArray().filter(layer=>layer.get('name') === 'customWMS').forEach(layer => map.removeLayer(layer));
+      map.getLayers().getArray().filter(layer=>layer.get('name') === 'bkgLayer').forEach(layer => map.removeLayer(layer));
+      window.map.addLayer(topPlusSingleImageWMS);
       window.map.setView(viewWGS84);
       break;
     case '3857':
+      map.getLayers().getArray().filter(layer=>layer.get('name') === 'customWMS').forEach(layer => map.removeLayer(layer));
+      map.getLayers().getArray().filter(layer=>layer.get('name') === 'bkgLayer').forEach(layer => map.removeLayer(layer));
+      window.map.addLayer(topPlusSingleImageWMS);
       window.map.setView(viewWebMercator);
       break;
     case '25833':
+      map.getLayers().getArray().filter(layer=>layer.get('name') === 'customWMS').forEach(layer => map.removeLayer(layer));
+      map.getLayers().getArray().filter(layer=>layer.get('name') === 'bkgLayer').forEach(layer => map.removeLayer(layer));
+      window.map.addLayer(topPlusSingleImageWMS);
       window.map.setView(viewUTM33);
       break;
     case '25832':
+      map.getLayers().getArray().filter(layer=>layer.get('name') === 'customWMS').forEach(layer => map.removeLayer(layer));
+      map.getLayers().getArray().filter(layer=>layer.get('name') === 'bkgLayer').forEach(layer => map.removeLayer(layer));
+      window.map.addLayer(topPlusSingleImageWMS);
       window.map.setView(viewUTM32);
       break;
     case 'customWMS':
       window.map.removeLayer(topPlusSingleImageWMS);
+      window.map.addLayer(customWMS);
       window.map.setView(customView);
-      break;
-    case '31467':
-      window.map.setView(viewTest);
       break;
   }
 });
@@ -232,18 +244,19 @@ $('#addWMS').on('click', () => {
 
   window.map.removeLayer(customWMS);
 
-  window.customWMS = new ImageLayer({
+  customWMS = new ImageLayer({
     source: new ImageSource({
       url: WMSUrl,
       params: { Layers: layer },
-    })
+    }),
+    name: 'customWMS'
   });
 
   if ($('#projSelect').prop('options').length == 4) {
     $('#projSelect').append('<option value="customWMS">custom WMS</option>');
   }
 
-  window.map.addLayer(customWMS);
+  //window.map.addLayer(customWMS);
   var centerCustomWMSWGS84 = getCenter(window.extentWGS84);
   var centerCustomWMS = proj4(EPSGCode, centerCustomWMSWGS84);
 
