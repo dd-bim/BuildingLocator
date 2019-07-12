@@ -287,11 +287,21 @@ $('#queryCap').on('click', () => {
         supportedCRS = caps.Capability.Layer.CRS;
         extentWGS84 = caps.Capability.Layer.EX_GeographicBoundingBox;
 
+        let selectNode = document.getElementById('layerSelect');
+        while (selectNode.firstChild) {
+          selectNode.removeChild(selectNode.firstChild);
+        }
+
         for (var i=0; i<allLayers.length; i++) {
           var layerName = allLayers[i];
           var newEntry = ['<option value="', layerName, '">', layerName, '</option>'];
     
           $('#layerSelect').append(newEntry.join(""));
+        }
+
+        let CRSNode = document.getElementById('CRSSelect');
+        while (CRSNode.firstChild) {
+          CRSNode.removeChild(CRSNode.firstChild);
         }
 
         for (var i=0; i<supportedCRS.length; i++) {
