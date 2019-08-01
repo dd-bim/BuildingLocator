@@ -1,0 +1,27 @@
+{
+  "name": "BuildingLocator",
+  "version": "1.0.0",
+  "description": "building locator as electron app",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "start-args": "./node_modules/.bin/electron index.js argument1 argument2",
+	  "pack": "electron-builder --dir",
+	  "dist": "electron-builder"
+  },
+  "author": "hutsimbl",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^5.0.6",
+    "electron-builder": "^21.0.15"
+  },
+  "build": {
+    "productName": "BuildingLocator",
+    "win": {
+      "target": ["portable"]
+    },
+    "portable": {
+      "artifactName": "BuildingLocator_portable.exe"
+    }
+  }
+}

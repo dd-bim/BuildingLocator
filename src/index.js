@@ -264,6 +264,9 @@ $('#addWMS').on('click', () => {
     center: centerCustomWMS,
     zoom: 11
   });
+
+  alert('Settings saved!');
+
 });
 
 $('#queryCap').on('click', () => {
