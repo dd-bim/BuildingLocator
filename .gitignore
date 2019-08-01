@@ -2,3 +2,5 @@
 
 node_modules/
 dist/
+BuildingLocatorAsElectron/dist/
+BuildingLocatorAsElectron/node_modules
