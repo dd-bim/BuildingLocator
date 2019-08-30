@@ -75,11 +75,13 @@ const topPlusSingleImageWMS = new ImageLayer({
     params: { Layers: 'web' },
     attributions: ['<a href="http://www.bkg.bund.de">Bundesamt für Kartographie und Geodäsie </a>', ' 2018', '<a href="http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf"> Datenquellen </a>'].join(''),
   }),
-  name: 'bkgLayer'
+  name: 'bkgLayer',
+  zIndex: -99
 });
 
 const editLayer = new VectorLayer({
   source: new VectorSource(),
+  zIndex: 99
 });
 
 window.map = new Map({
