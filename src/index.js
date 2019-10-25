@@ -241,6 +241,10 @@ $('#addWMS').on('click', () => {
   var EPSGCode = $('#CRSSelect').val();
   var proj4Definition = $('#projDef').val();
 
+  if ($('#axisOrder').prop('checked')) {
+    proj4Definition += ' +axis=neu';    
+  }
+
   proj4.defs(EPSGCode, proj4Definition);
   register(proj4);
 
@@ -260,6 +264,9 @@ $('#addWMS').on('click', () => {
 
   var centerCustomWMSWGS84 = getCenter(window.extentWGS84);
   var centerCustomWMS = proj4(EPSGCode, centerCustomWMSWGS84);
+
+  //var centerTest = [centerCustomWMS[1], centerCustomWMS[0]];
+
 
   window.customView = new View({
     projection: EPSGCode,

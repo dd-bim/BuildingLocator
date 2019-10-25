@@ -1,7 +1,56 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, Menu, shell} = require('electron')
 const path = require('path')
 
+const menuTemplate = [ 
+    {
+        label: 'File',
+        submenu: [
+            {   label: 'Exit',
+                role: 'quit'
+            }
+        ]
+    },
+    {
+        label: 'Window',
+        submenu: [
+            {
+                label: 'reload',
+                role:  'reload'
+            },
+            {
+                label: 'Developer Tools / Debug Console',
+                role: 'toggleDevTools'
+            }
+        ]
+    },
+    {
+        label: 'Help',
+        submenu: [
+            {
+                label: 'Learn More about IfcGeoRef',
+                click: function() {
+                    shell.openExternal('https://github.com/dd-bim');
+                }
+            },
+            {
+                label: 'BuildingLocator Documentation',
+                click: function() {
+                    shell.openExternal('https://github.com/dd-bim/BuildingLocator');
+                }
+            },
+            {   label: 'Discussions / Issues',
+                click: function() {
+                    shell.openExternal('https://github.com/dd-bim/BuildingLocator/issues');
+                }
+            }
+        ]
+    },
+];
+
+function setMainMenu() {
+    Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
+}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -32,6 +81,8 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+
+  setMainMenu();
 }
 
 global.sharedObject = {prop1: process.argv}
