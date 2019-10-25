@@ -46,17 +46,17 @@ In the following the basic steps for the usage of the BuildingLocator are descri
 
     By selecting one of the entries from the drop-down list the corresponding CRS is set in the map view.
 
-    If you need another base map covering a different area of the world with a different CRS the Building Locator is also able to retrieve a custom WMS. To do so, tick the checkbox *Use Custom WMS*. After that the you can paste the URL of the WMS in the *WMS-URL* field. The avialable layers and CRS can be retrieved by clicking the *Query Capabilities* button. As soon as you select a different entry from the CRS Drop-Down menu an request is sent to [epsg.io](http://epsg.io) for retrieving the Proj4 Definition String. If you encounter any problems you can also modify this string manually.
+    If you need another base map covering a different area of the world with a different CRS the Building Locator is also able to retrieve a custom WMS. To do so, tick the checkbox **Use Custom WMS**. After that the you can paste the URL of the WMS in the **WMS-URL** field. The avialable layers and CRS can be retrieved by clicking the **Query Capabilities** button. As soon as you select a different entry from the CRS Drop-Down menu an request is sent to [epsg.io](http://epsg.io) for retrieving the Proj4 Definition String. If you encounter any problems you can also modify this string manually.
     
     Once you are done with the settings press the **Save Custom WMS Settings** button. Afterwards the custom wms can be selectd from the map projection drop-down menu.  
 
 4. The building footprint can be added to the map view using tab 4 **Position Building**. If the GeoRefChecker could extract an footprint geometry from the     IFC-File it is added to the output-file which is used as the input data in the Building Locator application. This geometry will then be displayed in         the **WKT Representation field**. By clicking the *Draw Building* button the footprint is added to the map.
 
-   By clicking the *Zoom to Feature* button the map view is centered to the building footprint. You can select the footprint by clicking inside the geometry. A selected building is marked in purple. By default the move operation is activated. You can switch back and forth between moving and rotating by selecting the appropriate button in the top of the map view. 
+   By clicking the **Zoom to Feature** button the map view is centered to the building footprint. You can select the footprint by clicking inside the geometry. A selected building is marked in purple. By default the move operation is activated. You can switch back and forth between moving and rotating by selecting the appropriate button in the top of the map view. 
 
-5. Inside the *Query Building Address* tab you can retrieve the building's address. The Building Locator issues a request to the [Nominatim-Service](https://   nominatim.org) which basically is a reverse search through OpenStreetMap that gets the address which is closest to the project base point (the orange dot)   of the building footprint.  
+5. Inside the **Query Building Address** tab you can retrieve the building's address. The Building Locator issues a request to the [Nominatim-Service](https://nominatim.org) which basically is a reverse search through OpenStreetMap that gets the address which is closest to the project base point (the orange dot)      of the building footprint.  
 
-6. The Building Locator is not able to update the newly added georeferencing info to the original IFC-File directly. Therefor you need to save your settings    after you have placed the building footprint properly in the *Save Position and Download File* tab. After saving your settings you can download the          modified JSON-file containing the change information that than must be imported in the GeoRefChecker application. 
+6. The Building Locator is not able to update the newly added georeferencing info to the original IFC-File directly. Therefor you need to save your settings    after you have placed the building footprint properly in the **Save Position and Download File** tab. After saving your settings you can download the          modified JSON-file containing the change information that than must be imported in the GeoRefChecker application. 
 
 
 
