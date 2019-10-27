@@ -19,15 +19,19 @@ export function handleFileSelect(evt) {
 }
 
 
-
 export function handleFile(files) {
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     const reader = new FileReader();
 
     reader.onload = function(event) {
-      window.loFile = JSON.parse(event.target.result);
-      handleLoGeoRefFile();
+
+      try {
+        window.loFile = JSON.parse(event.target.result);
+        handleLoGeoRefFile();
+      } catch(error) {
+        alert('Please provide a (valid) JSON-File' + error);
+      }
     };
 
     reader.readAsText(file);
@@ -62,7 +66,7 @@ function readLevel50() {
     $('#eastings').attr('value', transEast);
     $('#northings').attr('value', transNorth);
     $('#rotation50').attr('value', `${rotationXY[0]} ${rotationXY[1]}`);
-    
+
   }
 
   else {
@@ -78,7 +82,7 @@ function readLevel20() {
     var lat20 = window.loFile.LoGeoRef20[0].Latitude;
     var lon20 = window.loFile.LoGeoRef20[0].Longitude;
     var elevation = window.loFile.LoGeoRef20[0].Elevation;
-    
+
     $('#level20Status').attr('value', 'true');
     $('#lat20').attr('value', lat20);
     $('#lon20').attr('value', lon20);

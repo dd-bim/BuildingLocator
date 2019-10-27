@@ -15,7 +15,7 @@
   </head>
   <body class="h-100">
     <div class="containter-fluid h-100">
-      
+
       <div class="row h-100" id="singleRow">
         <div class="col-md-6" id="map">
           <div class="bl-toolbar">
@@ -36,7 +36,7 @@
         <div class="col-md-6" id="controls">
           <h1>HTW Dresden Building Locator</h1>
           <div id="accordion">
-          
+
             <!--File Input Dialog-->
             <div class="card">
               <div class="card-header" id="ca-file-header">
@@ -51,7 +51,7 @@
                 <div class="card-body">
                   <p class="alert alert-warning" role="alert">Please open the exported JSON-File from GeoRefChecker! </p>
                   <div class="custom-file">
-                    <input type="file" id="files" class="custom-file-input">
+                    <input type="file" id="files" class="custom-file-input" accept=".json, application/json">
                     <label class="custom-file-label" for="files">Choose File</label>
                     <output id="list"></output>
                   </div>
@@ -160,7 +160,7 @@
                 </div>
                 <div id="ca-proj" class="collapse" aria-labelledby="ca-proj-header" data-parent="#accordion">
                   <div class="card-body">
-                    
+
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect01">Map Projection</label>
@@ -212,7 +212,7 @@
                                     <label class="form-check-label" for="axisOrder">Change Axis Order</label>
                                 </div>
                             </div>
-                          </fieldset>       
+                          </fieldset>
                         </form>
                         <div class="row">
                             <div class="col-sm-10">
@@ -224,7 +224,7 @@
                   </div>
                 </div>
             </div>
-          
+
             <!--Draw Building in Map-->
             <div class="card">
               <div class="card-header" id="ca-draw-header">
@@ -248,7 +248,7 @@
                       <div class="col-sm-10">
                         <button  class="btn btn-primary" id="drawWKT">Draw Building</button>
                       </div>
-                  </div>                  
+                  </div>
                 </div>
               </div>
             </div>
@@ -296,7 +296,7 @@
                         <label for="number">Number</label>
                         <input type="text" class="form-control" id="number" placeholder="Number">
                       </div>
-                    </div>                  
+                    </div>
                   </form>
                   <div class="row">
                       <div class="col-sm-10">
@@ -307,7 +307,7 @@
               </div>
             </div>
 
-            
+
             <!--Save Postion and Download File-->
             <div class="card">
               <div class="card-header" id="ca-save-header">
@@ -326,7 +326,7 @@
                   <button type="button" class="btn btn-warning" id="saveFile">Download JSON-File</button>
                 </div>
               </div>
-            </div>            
+            </div>
 
             <!--Template for new Entry-->
             <!--<div class="card">
@@ -343,7 +343,7 @@
               </div>
             </div>-->
           </div>
-          
+
         </div>
       </div>
     </div>
