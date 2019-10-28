@@ -33,3 +33,15 @@ h1 {
   height: 150px;
   width: 100%;
 }
+
+#lvl30 {
+  overflow: auto;
+  height: 150px;
+  width: 100%;
+}
+
+#lvl40 {
+  overflow: auto;
+  height: 150px;
+  width: 100%;
+}

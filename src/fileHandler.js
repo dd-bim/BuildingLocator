@@ -25,14 +25,16 @@ export function handleFile(files) {
     const reader = new FileReader();
 
     reader.onload = function(event) {
-
-      try {
+      window.loFile=JSON.parse(event.target.result);
+      handleLoGeoRefFile();
+      /*try {
         window.loFile = JSON.parse(event.target.result);
         handleLoGeoRefFile();
       } catch(error) {
         alert('Please provide a (valid) JSON-File' + error);
-      }
+      }*/
     };
+    
 
     reader.readAsText(file);
   }
@@ -46,6 +48,8 @@ function handleLoGeoRefFile() {
 
   readLevel10();
   readLevel20();
+  readLevel30();
+  readLevel40();
   readLevel50();
 }
 
@@ -111,4 +115,43 @@ function readLevel10() {
     $('#lvl10').append("<p>Address: " + address + " </p>");
   }
 
+}
+
+function readLevel30() {
+  if(window.loFile.LoGeoRef30[0].GeoRef30) {
+
+    var ifcType = window.loFile.LoGeoRef30[0].Reference_Object[1];
+    var status = window.loFile.LoGeoRef30[0].GeoRef30;
+    var instanceObject = window.loFile.LoGeoRef30[0].Instance_Object[1];
+    var objectLocation = window.loFile.LoGeoRef30[0].ObjectLocationXYZ;
+    var objectRotationX = window.loFile.LoGeoRef30[0].ObjectRotationX;
+    var ObjectRotationZ = window.loFile.LoGeoRef30[0].ObjectRotationZ;
+    
+    $('#level30Status').attr('value', 'true');
+    $('#refObj30').attr('value', ifcType);
+    $('#insObj30').attr('value', instanceObject);
+    $('#objLocation30').attr('value', objectLocation);
+    $('#objRotX30').attr('value', objectRotationX);
+    $('#objRotZ30').attr('value', ObjectRotationZ);
+  }
+}
+
+function readLevel40() {
+  if(window.loFile.LoGeoRef40[0].GeoRef40) {
+
+    var ifcType = window.loFile.LoGeoRef40[0].Reference_Object[1];
+    var instanceObject = window.loFile.LoGeoRef40[0].Instance_Object[1];
+    var projLocation = window.loFile.LoGeoRef40[0].ProjectLocation;
+    var projRotationX = window.loFile.LoGeoRef40[0].ProjectRotationX;
+    var projRotationZ = window.loFile.LoGeoRef40[0].ProjectRotationZ;
+    var trueNorth = window.loFile.LoGeoRef40[0].TrueNorthXY;
+    
+    $('#level40Status').attr('value', 'true');
+    $('#refObj40').attr('value', ifcType);
+    $('#insObj40').attr('value', instanceObject);
+    $('#projLocation40').attr('value', projLocation);
+    $('#projRotX40').attr('value', projRotationX);
+    $('#projRotZ40').attr('value', projRotationZ);
+    $('#trueNorth40').attr('value', trueNorth);
+  }
 }
