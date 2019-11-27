@@ -82,6 +82,12 @@ function createWindow () {
     mainWindow = null
   })
 
+  //when clicking one the logos, the link is openend in default browser
+  mainWindow.webContents.on('new-window', function(e, url) {
+      e.preventDefault();
+      require('electron').shell.openExternal(url);
+  });
+
   setMainMenu();
 }
 

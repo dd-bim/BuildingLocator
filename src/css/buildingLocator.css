@@ -45,3 +45,8 @@ h1 {
   height: 150px;
   width: 100%;
 }
+
+img {
+  padding-right: 5px;
+  padding-bottom: 5px;
+}

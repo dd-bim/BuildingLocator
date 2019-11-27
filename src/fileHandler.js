@@ -75,6 +75,7 @@ function readLevel50() {
 
   else {
     $('#level50Status').attr('value', 'false');
+    $('#level50EPSG').attr('value', 'not specified');
     $('#eastings').attr('value', 'not specified');
     $('#northings').attr('value', 'not specified');
     $('#rotation50').attr('value', 'not specified');
@@ -134,6 +135,16 @@ function readLevel30() {
     $('#objRotX30').attr('value', objectRotationX);
     $('#objRotZ30').attr('value', ObjectRotationZ);
   }
+
+  else {
+    $('#level30Status').attr('value', 'false');
+    $('#refObj30').attr('value', 'not specified');
+    $('#insObj30').attr('value', 'not specified');
+    $('#objLocation30').attr('value', 'not specified');
+    $('#objRotX30').attr('value', 'not specified');
+    $('#objRotZ30').attr('value', 'not specified');
+  }
+
 }
 
 function readLevel40() {
@@ -153,5 +164,14 @@ function readLevel40() {
     $('#projRotX40').attr('value', projRotationX);
     $('#projRotZ40').attr('value', projRotationZ);
     $('#trueNorth40').attr('value', trueNorth);
+  }
+  else {
+    $('#level40Status').attr('value', 'false');
+    $('#refObj40').attr('value', 'not specified');
+    $('#insObj40').attr('value', 'not specified');
+    $('#projLocation40').attr('value', 'not specified');
+    $('#projRotX40').attr('value', 'not specified');
+    $('#projRotZ40').attr('value', 'not specified');
+    $('#trueNorth40').attr('value', 'not specified');
   }
 }
