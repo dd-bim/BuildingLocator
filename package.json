@@ -31,7 +31,7 @@
     "file-loader": "^5.0.2",
     "style-loader": "^0.23.1",
     "webpack": "^4.25.1",
-    "webpack-cli": "^3.1.2",
+    "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.9.0",
     "write-file-webpack-plugin": "^4.5.0"
   },
